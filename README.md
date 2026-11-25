@@ -48,9 +48,16 @@ Everything is read live from the shop: its title (drawn as the wordmark), collec
 
 | # | Section | Variant | What it shows |
 | --- | --- | --- | --- |
-| 1 | `hero` | `split` | The shop's name and line on the left; the counter photo bleeding to the right edge of the frame, a framed inset across the seam with the best seller, the three most-ordered collections set large on the photo's dark corner (from Pralino). |
-| 2 | `collections` | `cards` | The same four as a 2 × 2 grid of cards, the photo on top inside the card (Domino). |
-| 3 | `journal` | `photo` | The four newest posts beside a tall photo with the big word 'Journal' (from Pralino; best last). |
+| 1 | `dp-hero` | `board` | Depot: the big photo panel with the line and Shop now; beside it the live offers (else the newest tools); the quick links under them. |
+| 2 | `dp-board` | `promo` | Depot: departments list, the kit promo (only with kits in the spec), two brand banners (brands with offers first), the popular list. |
+| 3 | `dp-deals` | `tiles` | Depot: today's top deals as tiles in the family colours, only with live offers. |
+| 4 | `dp-trust` | `band` | Depot: the service band on the family-dark band: the shop's ways, cash on delivery, compare. |
+| 5 | `dp-depts` | `tiles` | Depot: the departments as photo tiles with a caption bar. |
+| 6 | `dp-brands` | `wall` | Depot: every brand of the products as a tile, then All brands. |
+| 7 | `dp-explore` | `tabs` | Depot: Explore products on the family-dark band: Featured, the largest departments, New products; horizontal cards. |
+| 8 | `dp-why` | `five` | Depot: why shop here, from the shop's own ways, kits and payment. |
+| 9 | `dp-story` | `photo` | Depot: the shop's About page (or description) beside the about photo, on the tint band. |
+| 10 | `dp-journal` | `cards` | Depot: the four newest posts. |
 
 A section the shop has no data for hides itself; tint bands alternate with white.
 
@@ -80,12 +87,8 @@ Not released yet. Before the first upload: `scripts/release.sh` step 5b (the pro
 | hero | `skins/depot/photos/hero.webp` | 2400 × 1029 | yes |
 | hero-sq | `skins/depot/photos/hero-sq.webp` | 900 × 900 | yes |
 | promo-kit | `skins/depot/photos/promo-kit.webp` | 1280 × 720 | yes |
-| promo-battery | `skins/depot/photos/promo-battery.webp` | 1280 × 720 | yes |
-| promo-pickup | `skins/depot/photos/promo-pickup.webp` | 1280 × 720 | yes |
 | promo-delivery | `skins/depot/photos/promo-delivery.webp` | 1280 × 720 | yes |
 | about | `skins/depot/photos/about.webp` | 1440 × 960 | yes |
-| contact | `skins/depot/photos/contact.webp` | 1200 × 800 | yes |
-| empty | `skins/depot/photos/empty.webp` | 1200 × 800 | yes |
 | each collection | `skins/depot/photos/col-<slug of its title>.webp` | 1040 × 780 | 10 file(s); a collection without one shows its best sellers on a plate |
 
 ## Use it on your shop
