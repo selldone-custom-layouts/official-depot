@@ -173,7 +173,8 @@ html.ly-dark .ly, html.ly-dark.ly { --dp-plate: color-mix(in oklab, var(--ly-tin
 
 /* ── the cards ── */
 .ly .pc.dp-card { transition: none; position: relative; display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: var(--ly-r-pn); background: var(--ly-paper); box-shadow: inset 0 0 0 1px var(--ly-line); container-type: inline-size; min-width: 0; }
-.ly .pc.dp-card:hover { box-shadow: inset 0 0 0 1.5px var(--ly-act); }
+/* hover = colour only, and never a second ring around a focused field inside the card: the name takes the colour */
+.ly .pc.dp-card:hover .dp-card-t a { color: var(--ly-act-text); }
 .ly .dp-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 36px; }
 .ly .dp-heart { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: var(--ly-muted); flex: none; }
 .ly .dp-heart:hover, .ly .dp-heart.on { color: var(--ly-act-text); }

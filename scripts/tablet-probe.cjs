@@ -57,11 +57,11 @@ const PAGES = (
 /* drawers and sheets, opened on the page named first */
 const STATES = [
   ["home", "menu", `${SEL.menu}, ${SEL.mega}`],
-  ["home", "search", "[aria-controls=srch]"],
-  ["home", "region", ".rg-pill"],
+  ["home", "search", "#dp-q"],
+  ["home", "region", ".dp-region"],
   ["home", "bag", SEL.bag],
   ["category", "filters", ".fbtn"],
-  ["category", "quick", ".pc-qv"],
+  ["category", "quick", ".dp-qv"],
   ["account", "signin", ".acc-nav button.an"],
 ];
 fs.mkdirSync(OUT, { recursive: true });

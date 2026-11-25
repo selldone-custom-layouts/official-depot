@@ -161,7 +161,16 @@
   .ly .dp-board-g > .prod .dp-row:nth-last-child(2) { border-bottom: 0; }
   .ly .dp-bw { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+@media (max-width: 1200px) {
+  /* five reasons: three over two, never a column too narrow for its sentence */
+  .ly .dp-why-g.n5 { grid-auto-flow: row; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .ly .dp-why-g.n5 > * { grid-column: span 2; }
+  .ly .dp-why-g.n5 > :nth-child(n + 4) { grid-column: span 3; }
+}
 @media (max-width: 979px) {
+  .ly .dp-why-g.n5 { grid-template-columns: 1fr 1fr; }
+  .ly .dp-why-g.n5 > *, .ly .dp-why-g.n5 > :nth-child(n + 4) { grid-column: auto; }
+  .ly .dp-why-g.n5 > :last-child { grid-column: 1 / -1; }
   .ly .dp-hero-g, .ly .dp-story-in { grid-template-columns: 1fr; }
   .ly .dp-board-g { grid-template-columns: 1fr; }
   .ly .dp-board-g > .dp-trend:first-child ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
@@ -198,6 +207,8 @@
   .ly .dp-ex-g, .ly .dp-jg { grid-template-columns: 1fr; }
   .ly .dp-why-g { grid-template-columns: 1fr; }
   .ly .dp-why-g > :last-child:nth-child(odd) { grid-column: auto; }
+  .ly .dp-why-g.n5 { grid-template-columns: 1fr; }
+  .ly .dp-why-g.n5 > :last-child { grid-column: auto; }
   .ly .dp-trust-in { grid-template-columns: 1fr; }
   .ly .dp-trust-in > :last-child:nth-child(even) { grid-column: auto; }
   .ly .dp-shead { flex-wrap: wrap; gap: 10px; }
@@ -450,3 +461,10 @@
 .ly .pt .pt-srch { margin-top: 14px; }
 .ly .h2 { font-weight: 800; text-transform: uppercase; letter-spacing: .01em; }
 .ly .eyebrow { letter-spacing: .1em; }
+/* the journal's other posts: never one alone on a row (4, 7, 10… take four across; four on a tablet take two by two) */
+@media (min-width: 980px) {
+  .ly-journal .bgrid:has(> :nth-child(3n + 1):last-child:not(:first-child)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 761px) and (max-width: 979px) {
+  .ly-journal .bgrid:has(> :nth-child(4):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

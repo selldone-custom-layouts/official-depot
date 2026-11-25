@@ -333,13 +333,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         if (w <= PHONE) states.push(["menu", ".menu-btn"]);
         else {
           states.push(["shop-menu", "[aria-controls=dd-shop]"]);
-          states.push(["region", ".rg-pill"]);
+          states.push(["region", ".dp-region"]);
         }
-        states.push(["search", "[aria-controls=srch]"]);
+        states.push(["search", "#dp-q"]);
         if (label === "home" || label === "category") states.push(["bag", ".bag-btn"]);
         if (label === "category") {
           if (w < 1200) states.push(["filter-sheet", ".fbtn"]);
-          states.push(["quick", ".pc-qv"]);
+          states.push(["quick", ".dp-qv"]);
         }
         if (label === "account") states.push(["signin", "@signin"]);
         for (const [st, sel] of states) {

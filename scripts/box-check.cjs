@@ -171,7 +171,7 @@ const fillCart = (pg) =>
       await pg.waitForTimeout(500);
       await push(pg, "/croissants-category");
       await pg.waitForTimeout(3500);
-      const opened = await pg.evaluate(() => { const b = document.querySelector(".pc-qv"); if (b) { b.scrollIntoView(); b.click(); } return !!b; });
+      const opened = await pg.evaluate(() => { const b = document.querySelector(".dp-qv"); if (b) { b.scrollIntoView(); b.click(); } return !!b; });
       if (opened) {
         await pg.waitForTimeout(3500);
         report(`${w} quick-look`, await pg.evaluate(audit));
