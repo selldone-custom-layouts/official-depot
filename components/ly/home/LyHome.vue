@@ -26,6 +26,16 @@ import SelectionSection from "./sections/SelectionSection.vue";
 import PhotoBand from "./sections/PhotoBand.vue";
 import MarqueeSection from "./sections/MarqueeSection.vue";
 import JournalSection from "./sections/JournalSection.vue";
+import DpHero from "../depot/home/DpHero.vue";
+import DpBoard from "../depot/home/DpBoard.vue";
+import DpDeals from "../depot/home/DpDeals.vue";
+import DpTrust from "../depot/home/DpTrust.vue";
+import DpDepts from "../depot/home/DpDepts.vue";
+import DpBrandWall from "../depot/home/DpBrandWall.vue";
+import DpExplore from "../depot/home/DpExplore.vue";
+import DpWhy from "../depot/home/DpWhy.vue";
+import DpStory from "../depot/home/DpStory.vue";
+import DpJournal from "../depot/home/DpJournal.vue";
 
 /* section id (sections.json) -> its component; the variant is a prop the component draws */
 const REGISTRY = {
@@ -40,6 +50,17 @@ const REGISTRY = {
   photoband: PhotoBand,
   marquee: MarqueeSection,
   journal: JournalSection,
+  /* Depot: the tool superstore's home (components/ly/depot/home/) */
+  "dp-hero": DpHero,
+  "dp-board": DpBoard,
+  "dp-deals": DpDeals,
+  "dp-trust": DpTrust,
+  "dp-depts": DpDepts,
+  "dp-brands": DpBrandWall,
+  "dp-explore": DpExplore,
+  "dp-why": DpWhy,
+  "dp-story": DpStory,
+  "dp-journal": DpJournal,
 };
 
 export default {

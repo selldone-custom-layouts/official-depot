@@ -25,19 +25,47 @@
 -->
 <template>
   <div class="ly ly-listing">
-    <!-- The title band -->
-    <ly-pt v-if="kind === 'search'" :crumbs="[{ label: t('ly.ls.search', 'Search') }]" :title="search ? t('ly.ls.resultsFor', 'Results for “{q}”', { q: search }) : t('ly.ls.search', 'Search')" art="cupcake" art2="cookie" cls="compact">
-      <form class="pt-srch" role="search" @submit.prevent="submitSearch">
-        <label class="sr" for="ly-sq">{{ t("ly.ls.searchLabel", "Search the bakery") }}</label>
-        <ly-icon name="search" />
-        <input id="ly-sq" :placeholder="searchPh" :value="q" autocomplete="off" enterkeyhint="search" type="search" @input="q = $event.target.value" />
-        <button class="btn sm" type="submit">{{ t("ly.ls.searchBtn", "Search") }}</button>
-      </form>
-    </ly-pt>
-    <ly-pt v-else-if="kind === 'category'" :crumbs="[{ label: catTitle(cat) || categoryName }]" :cuts="catPhoto ? [] : catCuts" :eyebrow="t('ly.ls.theCollection', 'The collection')" :lead="catLead" :photo="catPhoto" :title="catTitle(cat) || ''" cls="compact" />
-    <ly-pt v-else-if="kind === 'deals'" :crumbs="[{ label: t('ly.ls.deals', 'Deals') }]" :lead="dealsLead" :title="t('ly.ls.deals', 'Deals')" art="macaron" art2="cake" cls="compact" />
-    <ly-pt v-else-if="brandQ" :crumbs="[{ label: brandQ }]" :eyebrow="t('ly.ls.theBrand', 'The brand')" :lead="brandLead" :title="brandQ" art="croissant" art2="macaron" cls="compact" />
-    <ly-pt v-else :crumbs="[{ label: t('ly.ls.all', 'Every pastry') }]" :lead="allLead" :title="t('ly.ls.all', 'Every pastry')" art="croissant" art2="macaron" cls="compact" />
+    <!-- Depot: the breadcrumb and the head (a department's name, line and photo; a search with its box; the deals,
+         a brand, every tool), then the deals band with the biggest savings -->
+    <div class="wrap dp-lwrap">
+      <nav :aria-label="t('dp.ls.crumbs', 'Breadcrumb')" class="dp-crumbs">
+        <router-link :to="{ path: '/' }">{{ t("dp.ls.home", "Home") }}</router-link><ly-icon cls="sep" name="right" />
+        <template v-if="kind === 'category'"><router-link :to="allTo">{{ t("dp.hdr.shopAll", "Shop all") }}</router-link><ly-icon cls="sep" name="right" /></template>
+        <span aria-current="page"><bdi>{{ headTitle }}</bdi></span>
+      </nav>
+      <div v-if="kind === 'category'" :class="['dp-lhead', { plain: !catPhoto }]">
+        <div>
+          <h1 class="dp-lh1"><bdi>{{ headTitle }}</bdi></h1>
+          <p v-if="catLead" class="dp-ld" data-shop-text>{{ catLead }}</p>
+        </div>
+        <span v-if="catPhoto" class="dp-lhead-ph"><img :src="catPhoto" alt="" /></span>
+      </div>
+      <div v-else class="dp-lhead plain">
+        <h1 class="dp-lh1"><bdi>{{ headTitle }}</bdi></h1>
+        <p v-if="headLead" class="dp-ld">{{ headLead }}</p>
+        <form v-if="kind === 'search'" class="pt-srch dp-lsrch" role="search" @submit.prevent="submitSearch">
+          <label class="sr" for="ly-sq">{{ t("dp.hdr.searchLabel", "Search tools, brands and specs") }}</label>
+          <ly-icon name="search" />
+          <input id="ly-sq" :placeholder="t('dp.hdr.searchPh', 'Search tools, brands, specs')" :value="q" autocomplete="off" enterkeyhint="search" type="search" @input="q = $event.target.value" />
+          <button class="btn sm" type="submit">{{ t("ly.ls.searchBtn", "Search") }}</button>
+        </form>
+      </div>
+      <nav v-if="kind !== 'category' && !(kind === 'search' && ready && !base.length)" :aria-label="t('dp.hdr.departments', 'Departments')" class="dp-depchips">
+        <router-link v-for="c in ly.cats" :key="c.id" :to="catTo(c)" class="chip"><bdi>{{ catTitle(c) }}</bdi></router-link>
+      </nav>
+    </div>
+    <section v-if="kind === 'deals' && dealTop.length" :aria-label="t('dp.home.liveOffers', 'Live offers')" class="dp-dealband">
+      <div class="wrap dp-dealband-in">
+        <div>
+          <span class="dp-kick">{{ t("dp.home.liveOffers", "Live offers") }}</span>
+          <h2 class="dp-h">{{ t("dp.ls.dealsH", "Price drops on tools you'll use") }}</h2>
+          <p>{{ t("dp.ls.dealsP", "Prices drop when the shop opens an offer. Each one ends when the shop ends it.") }}</p>
+        </div>
+        <div class="dp-dealband-p">
+          <router-link v-for="p in dealTop" :key="p.id" :to="productTo(p)"><span class="dp-pic"><img :src="img(p, true)" alt="" /></span><b>{{ t("dp.card.off", "{n}% off", { n: pv(p).off }) }}</b></router-link>
+        </div>
+      </div>
+    </section>
 
     <section :aria-label="sectionLabel" class="sec-s">
       <div class="wrap">
@@ -58,29 +86,6 @@
         </template>
 
         <template v-else>
-          <!-- A collection: every collection as a chip -->
-          <nav v-if="kind === 'category'" :aria-label="t('ly.ls.collections', 'Collections')" class="cchips">
-            <ul>
-              <li v-for="c in ly.cats" :key="c.id">
-                <router-link :aria-current="cat && c.id === cat.id ? 'page' : undefined" :to="catTo(c)" class="cchip"
-                  ><span class="cc-pl"><img v-if="topImg(c)" :src="topImg(c)" alt="" loading="lazy" /></span><span><bdi>{{ catTitle(c) }}</bdi></span></router-link
-                >
-              </li>
-            </ul>
-          </nav>
-
-          <!-- Deals: the biggest saving today -->
-          <router-link v-if="kind === 'deals' && topSave" :to="productTo(topSave)" class="deal-top">
-            <span class="dt-pl"><img :src="img(topSave, true)" alt="" loading="lazy" /></span>
-            <span class="dt-tx"
-              ><span class="eyebrow">{{ t("ly.ls.biggestToday", "The biggest saving today") }}</span><b>{{ topSave.title }}</b
-              ><span class="dt-ly"
-                ><span class="now money">{{ money(pv(topSave).now) }}</span><template v-if="pv(topSave).was">{{ " " }}<s class="was money">{{ money(pv(topSave).was) }}</s></template></span
-              ></span
-            >
-            <span ref="dtsv" class="dt-sv"><span>{{ t("ly.ls.saveCap", "Save") }}</span><b>{{ breakable(money(pv(topSave).save)) }}</b></span>
-          </router-link>
-
           <div :class="['lst', { 'has-fp': filters }]">
             <div v-if="tabCats.length > 1" :aria-label="t('ly.ls.collections', 'Collections')" class="tabs" role="group">
               <button :aria-pressed="tab === 'all' ? 'true' : 'false'" class="tab" type="button" @click="setTab('all')">{{ t("ly.ls.allTab", "All") }}</button>
@@ -100,51 +105,82 @@
                     </div>
                     <div class="fp-body">
                       <div class="fp-top">
-                        <h2 class="fp-h">{{ t("ly.ls.filter", "Filter") }}</h2>
-                        <button class="qlink" type="button" @click="reset">{{ t("ly.ls.clearAll", "Clear all") }}</button>
+                        <h2 class="fp-h">{{ t("ly.ls.filters", "Filters") }}</h2>
+                        <button v-if="active.length" class="qlink" type="button" @click="reset">{{ t("ly.ls.clearAll", "Clear all") }}</button>
                       </div>
-                      <div v-if="hi > lo" class="fg fg-price">
-                        <p class="fg-l">{{ t("ly.ls.price", "Price") }}</p>
-                        <div :style="{ '--ly-a': pctA + '%', '--ly-b': pctB + '%' }" class="rng">
-                          <span class="rng-tr"></span><span class="rng-fill"></span>
-                          <input :aria-label="t('ly.ls.lowest', 'Lowest price')" :max="hi" :min="lo" :value="min" step="1" type="range" @change="update()" @input="onMin($event.target.value)" />
-                          <input :aria-label="t('ly.ls.highest', 'Highest price')" :max="hi" :min="lo" :value="max" step="1" type="range" @change="update()" @input="onMax($event.target.value)" />
+                      <details v-if="kind !== 'category' && deptList.length > 1" class="fg" open>
+                        <summary><span>{{ t("dp.hdr.departments", "Departments") }}</span><ly-icon cls="chev" name="down" /></summary>
+                        <div class="fg-body">
+                          <router-link v-for="c in deptList" :key="c.id" :to="catTo(c)" class="dp-fl"><bdi>{{ catTitle(c) }}</bdi></router-link>
                         </div>
-                        <div class="rng-boxes">
-                          <label class="mbox"
-                            ><span>{{ sign }}</span
-                            ><input :aria-label="t('ly.ls.minPrice', 'Minimum price')" :max="hi" :min="lo" :value="min" inputmode="numeric" type="number" @change="boxMin($event.target.value)"
-                          /></label>
-                          <span class="rng-to">{{ t("ly.ls.to", "to") }}</span>
-                          <label class="mbox"
-                            ><span>{{ sign }}</span
-                            ><input :aria-label="t('ly.ls.maxPrice', 'Maximum price')" :max="hi" :min="lo" :value="max" inputmode="numeric" type="number" @change="boxMax($event.target.value)"
-                          /></label>
+                      </details>
+                      <details v-if="brandValues.length > 1" class="fg" open>
+                        <summary><span>{{ t("dp.ls.brand", "Brand") }}</span><ly-icon cls="chev" name="down" /></summary>
+                        <div class="fg-body">
+                          <div v-for="v in brandValues" :key="v" class="fg-row">
+                            <label class="ck-l"
+                              ><span class="cbx-w"><input :checked="brand.includes(v)" class="cbx" type="checkbox" @change="toggleBrand(v)" /><ly-icon cls="cbx-i" name="check" /></span
+                              ><span class="ck-t"><bdi>{{ v }}</bdi></span></label
+                            >
+                          </div>
                         </div>
-                      </div>
-                      <div v-if="anyOffer" class="fg fg-sw">
-                        <span id="ly-offer-l" class="fg-l">{{ t("ly.ls.onOffer", "On offer") }}</span>
-                        <button :aria-checked="offer ? 'true' : 'false'" aria-labelledby="ly-offer-l" class="switch" role="switch" type="button" @click="setOffer(!offer)"><span></span></button>
-                      </div>
-                      <details v-for="(f, gi) in facets" :key="f.key" :open="gi < 1" class="fg">
+                      </details>
+                      <details v-if="kitValues.length" class="fg" open>
+                        <summary><span>{{ t("dp.ls.kitOrBare", "Kit or bare tool") }}</span><ly-icon cls="chev" name="down" /></summary>
+                        <div class="fg-body">
+                          <div v-for="v in kitValues" :key="v" class="fg-row">
+                            <label class="ck-l"
+                              ><span class="cbx-w"><input :checked="kit === v" class="cbx" type="checkbox" @change="setKit(kit === v ? '' : v)" /><ly-icon cls="cbx-i" name="check" /></span
+                              ><span class="ck-t">{{ kitWord(v) }}</span></label
+                            >
+                          </div>
+                        </div>
+                      </details>
+                      <details v-for="(f, gi) in facets" :key="f.key" :open="gi < 3" class="fg">
                         <summary>
                           <span><bdi>{{ f.key }}</bdi></span><ly-icon cls="chev" name="down" />
                         </summary>
                         <div :class="['fg-body', { long: f.long }]">
                           <template v-for="(v, i) in f.values" :key="v">
-                            <div v-if="!f.long || i < 4 || moreOpen[f.key]" class="fg-row">
+                            <div v-if="f.values.length <= 6 || i < 5 || moreOpen[f.key]" class="fg-row">
                               <label class="ck-l"
                                 ><span class="cbx-w"><input :checked="picked(f.key, v)" class="cbx" type="checkbox" @change="toggle(f.key, v)" /><ly-icon cls="cbx-i" name="check" /></span
                                 ><span class="ck-t"><bdi>{{ v }}</bdi></span></label
                               >
                             </div>
                           </template>
-                          <button v-if="f.long && f.values.length > 4" :aria-expanded="moreOpen[f.key] ? 'true' : 'false'" class="fg-more" type="button" @click="moreOpen = { ...moreOpen, [f.key]: !moreOpen[f.key] }">
+                          <button v-if="f.values.length > 6" :aria-expanded="moreOpen[f.key] ? 'true' : 'false'" class="fg-more" type="button" @click="moreOpen = { ...moreOpen, [f.key]: !moreOpen[f.key] }">
                             <span class="fm-ic"><ly-icon name="down" /></span
-                            ><span>{{ moreOpen[f.key] ? t("ly.ls.fewer", "Show fewer") : t("ly.ls.more", "Show {n} more", { n: f.values.length - 4 }) }}</span>
+                            ><span>{{ moreOpen[f.key] ? t("ly.ls.fewer", "Show fewer") : t("ly.ls.more", "Show {n} more", { n: f.values.length - 5 }) }}</span>
                           </button>
                         </div>
                       </details>
+                      <details v-if="hi > lo" class="fg fg-price" open>
+                        <summary><span>{{ t("ly.ls.price", "Price") }}</span><ly-icon cls="chev" name="down" /></summary>
+                        <div class="fg-body">
+                          <div v-for="b in bands" :key="b.min + '-' + b.max" class="fg-row">
+                            <label class="ck-l"
+                              ><span class="cbx-w"><input :checked="bandOn(b)" class="cbx" type="checkbox" @change="setBand(b)" /><ly-icon cls="cbx-i" name="check" /></span
+                              ><span class="ck-t">{{ bandLabel(b) }}</span></label
+                            >
+                          </div>
+                          <div class="rng-boxes">
+                            <label class="mbox"
+                              ><span>{{ sign }}</span
+                              ><input :aria-label="t('ly.ls.minPrice', 'Minimum price')" :max="hi" :min="lo" :value="min" inputmode="numeric" type="number" @change="boxMin($event.target.value)"
+                            /></label>
+                            <span class="rng-to">{{ t("ly.ls.to", "to") }}</span>
+                            <label class="mbox"
+                              ><span>{{ sign }}</span
+                              ><input :aria-label="t('ly.ls.maxPrice', 'Maximum price')" :max="hi" :min="lo" :value="max" inputmode="numeric" type="number" @change="boxMax($event.target.value)"
+                            /></label>
+                          </div>
+                        </div>
+                      </details>
+                      <div v-if="anyOffer && kind !== 'deals'" class="fg fg-sw">
+                        <span id="ly-offer-l" class="fg-l">{{ t("ly.ls.onOffer", "On offer") }}</span>
+                        <button :aria-checked="offer ? 'true' : 'false'" aria-labelledby="ly-offer-l" class="switch" role="switch" type="button" @click="setOffer(!offer)"><span></span></button>
+                      </div>
                     </div>
                     <div class="fp-ft">
                       <button class="btn quiet sm" type="button" @click="reset">{{ t("ly.ls.clearAll", "Clear all") }}</button>
@@ -207,8 +243,6 @@
       </div>
     </section>
 
-    <!-- A collection ends with the strip: the courier, the collection's photo, pickup. -->
-    <ly-strip v-if="kind === 'category' && cat" :cat="cat" />
   </div>
 </template>
 
@@ -226,6 +260,8 @@ import { breakable, fitInCircle } from "../../bakini/fit-in-circle";
 import { fitOnResize } from "../ly-fit";
 import { t } from "../../kalio/i18n/kalio-i18n";
 import { collectionPhoto } from "../ly-photos";
+import { brands as allBrands, facetsOf, kitOf, priceBands } from "../depot/dp";
+import { catalogueRoute } from "../../kalio/kalio-catalog";
 
 /* A spec key whose every value reads like a paragraph is a note, not a filter. */
 const NOTE = 80;
@@ -252,6 +288,8 @@ export default {
     tab: "all",
     sort: "featured",
     f: {},
+    brand: [],
+    kit: "",
     offer: false,
     min: 0,
     max: 0,
@@ -295,8 +333,51 @@ export default {
       if (this.deals) return "deals";
       return "all";
     },
+    /* Depot: the filter sidebar on every listing (a search that found nothing has none) */
     filters() {
-      return this.kind === "category";
+      return !(this.kind === "search" && this.ready && !this.base.length);
+    },
+    allTo() {
+      return catalogueRoute({ sort: "featured" });
+    },
+    headTitle() {
+      if (this.kind === "category") return catTitle(this.cat) || this.categoryName || "";
+      if (this.kind === "search") return this.search ? t("ly.ls.resultsFor", "Results for “{q}”", { q: this.search }) : t("ly.ls.search", "Search");
+      if (this.kind === "deals") return t("ly.ls.deals", "Deals");
+      if (this.brandQ) return this.brandQ;
+      if (this.kitQ === "kit") return t("dp.ftr.kits", "Tool kits");
+      if (this.kitQ === "bare") return t("dp.home.bare", "Bare tools");
+      if (String(this.$route?.query?.sort || "") === "newest") return t("dp.hdr.whatsNew", "What's new");
+      return t("dp.ls.all", "All tools");
+    },
+    headLead() {
+      if (this.kind === "deals") return this.dealsLead;
+      if (this.kind === "search") return "";
+      if (this.brandQ) return t("dp.ls.brandLead", "Every {brand} tool in the shop.", { brand: this.brandQ });
+      if (this.kitQ === "kit") return t("dp.ls.kitLead", "Cordless tools with the battery and charger in the box.");
+      if (this.kitQ === "bare") return t("dp.ls.bareLead", "The tool alone: the battery and charger are sold separately.");
+      return t("dp.ls.allLead", "Every tool in the shop, by department, brand and spec.");
+    },
+    kitQ() {
+      return String(this.$route?.query?.kit || "");
+    },
+    deptList() {
+      const ids = new Set(this.base.map((p) => p.category_id));
+      return this.ly.cats.filter((c) => ids.has(c.id));
+    },
+    brandValues() {
+      void this.ly.products;
+      const set = new Set(this.base.map((p) => String(p.brand || "").trim()).filter(Boolean));
+      return allBrands().filter((b) => set.has(b));
+    },
+    kitValues() {
+      return ["kit", "bare"].filter((k) => this.base.some((p) => kitOf(p)?.kind === k));
+    },
+    bands() {
+      return priceBands(this.prices).filter((b) => b.min < this.hi && (b.max == null || b.max > this.lo));
+    },
+    dealTop() {
+      return this.kind === "deals" ? [...this.base].sort((a, b) => this.pv(b).off - this.pv(a).off || a.id - b.id).slice(0, 3) : [];
     },
     cat() {
       return this.ly.cats.find((c) => c.name === this.categoryName) || null;
@@ -337,27 +418,11 @@ export default {
     anyOffer() {
       return this.base.some((p) => this.pv(p).save > 0);
     },
-    /* Every spec group of these products (the mockup's facets): groups with
-       several values first; a paragraph-like note is left out. */
+    /* Depot: a department's filters from its products' own spec (dp.ts facetsOf): keys most of them share, with a
+       few values each; other listings filter by department, brand, kit and price. */
     facets() {
-      const map = new Map();
-      for (const p of this.base) {
-        for (const g of specGroups(p)) {
-          for (const [k, v] of g.rows) {
-            if (!map.has(k)) map.set(k, new Set());
-            map.get(k).add(String(v));
-          }
-        }
-      }
-      return [...map.entries()]
-        .map(([key, set]) => {
-          const values = [...set].sort((a, b) => a.localeCompare(b));
-          return { key, values, long: values.some((v) => v.length > LONG), note: values.every((v) => v.length > NOTE) };
-        })
-        /* a note in sentences (every value a paragraph, or one long sentence
-           shared by all) is not a filter: it would select everything. */
-        .filter((x) => !x.note && x.values.length && !(x.values.length === 1 && x.long))
-        .sort((a, b) => (a.values.length > 1 ? 0 : 1) - (b.values.length > 1 ? 0 : 1));
+      if (this.kind !== "category") return [];
+      return facetsOf(this.base).map((x) => ({ ...x, long: x.values.some((v) => v.length > LONG) }));
     },
     sorts() {
       const s = [
@@ -381,6 +446,8 @@ export default {
         const now = this.pv(p).now;
         if (this.hi > this.lo && (now < this.min - 0.001 || now > this.max + 0.001)) return false;
         if (this.offer && !(this.pv(p).save > 0)) return false;
+        if (this.brand.length && !this.brand.includes(String(p.brand || "").trim())) return false;
+        if (this.kit && kitOf(p)?.kind !== this.kit) return false;
         for (const k of Object.keys(this.f)) if (this.f[k].length && !this.f[k].includes(String(specValue(p, k)))) return false;
         return true;
       });
@@ -393,6 +460,8 @@ export default {
       const out = [];
       for (const k of Object.keys(this.f)) for (const v of this.f[k]) out.push({ id: k + ":" + v, label: v, clear: () => this.toggle(k, v) });
       if (this.offer) out.push({ id: "offer", label: t("ly.ls.onOffer", "On offer"), clear: () => this.setOffer(false) });
+      for (const b of this.brand) out.push({ id: "brand:" + b, label: b, clear: () => this.toggleBrand(b) });
+      if (this.kit) out.push({ id: "kit", label: this.kitWord(this.kit), clear: () => this.setKit("") });
       if (this.hi > this.lo && (this.min > this.lo || this.max < this.hi))
         out.push({
           id: "price",
@@ -520,6 +589,19 @@ export default {
 
   created() {
     loadDm();
+    /* ?kit=kit|bare, ?brand= (on any listing but a brand's own page), ?f=Key:Value|Key:Value (the mega menu's quick links) */
+    if (this.kitQ === "kit" || this.kitQ === "bare") this.kit = this.kitQ;
+    const bq = String(this.$route?.query?.brand || "").trim();
+    if (bq && this.kind !== "all") this.brand = [bq];
+    const fq = String(this.$route?.query?.f || "");
+    if (fq)
+      for (const part of fq.split("|")) {
+        const i = part.indexOf(":");
+        if (i > 0) {
+          const k = part.slice(0, i);
+          this.f = { ...this.f, [k]: [...(this.f[k] || []), part.slice(i + 1)] };
+        }
+      }
     this.sort = this.kind === "deals" ? "saving" : this.kind === "search" ? "best" : { most_sales: "best", newest: "new", cheapest: "low", most_expensive: "high" }[this.initialSort] || "featured";
   },
 
@@ -663,6 +745,35 @@ export default {
       this.f = { ...this.f, [k]: cur };
       this.update();
     },
+    toggleBrand(b) {
+      this.brand = this.brand.includes(b) ? this.brand.filter((x) => x !== b) : [...this.brand, b];
+      this.update();
+    },
+    setKit(k) {
+      this.kit = k;
+      this.update();
+    },
+    kitWord(k) {
+      return k === "kit" ? t("dp.ls.kits", "Kits (battery and charger)") : t("dp.ls.bares", "Bare tools (no battery)");
+    },
+    bandOn(b) {
+      return this.min === Math.max(this.lo, b.min) && this.max === (b.max == null ? this.hi : Math.min(this.hi, b.max)) && !(this.min === this.lo && this.max === this.hi);
+    },
+    setBand(b) {
+      if (this.bandOn(b)) {
+        this.min = this.lo;
+        this.max = this.hi;
+      } else {
+        this.min = Math.max(this.lo, b.min);
+        this.max = b.max == null ? this.hi : Math.min(this.hi, b.max);
+      }
+      this.update();
+    },
+    bandLabel(b) {
+      if (!b.min) return t("dp.ls.under", "Under {v}", { v: money(b.max, true) });
+      if (b.max == null) return t("dp.ls.over", "{v} and up", { v: money(b.min, true) });
+      return `${money(b.min, true)} – ${money(b.max, true)}`;
+    },
     setOffer(v) {
       this.offer = v;
       this.update();
@@ -694,6 +805,8 @@ export default {
     },
     reset() {
       this.f = {};
+      this.brand = [];
+      this.kit = "";
       this.offer = false;
       this.resetRange();
       this.update();

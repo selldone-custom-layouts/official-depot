@@ -26,7 +26,15 @@
   -->
   <div class="ly ly-pdp s--product">
     <slot name="header" :center="true"></slot>
-    <ly-pt :crumbs="crumbs" :label="t('ly.pt.crumbs', 'Breadcrumb')" cls="slim" />
+    <div class="wrap dp-lwrap">
+      <nav :aria-label="t('dp.ls.crumbs', 'Breadcrumb')" class="dp-crumbs">
+        <router-link :to="{ path: '/' }">{{ t("dp.ls.home", "Home") }}</router-link><ly-icon cls="sep" name="right" />
+        <template v-for="(c, i) in crumbs" :key="i"
+          ><router-link v-if="c.to" :to="c.to"><bdi>{{ c.label }}</bdi></router-link><span v-else aria-current="page"><bdi>{{ c.label }}</bdi></span
+          ><ly-icon v-if="i < crumbs.length - 1" cls="sep" name="right"
+        /></template>
+      </nav>
+    </div>
 
     <ly-product-overview v-if="product" :key="product.id" can-buy show-cover @reviews="$refs.tabs?.open('rev')" />
     <section v-else aria-hidden="true" class="pd ly-pd-skel">
@@ -48,13 +56,10 @@
       </div>
       <s-product-landing></s-product-landing>
 
-      <section v-if="more.length" aria-labelledby="more-h" class="sec-s more">
+      <section v-if="more.length" aria-labelledby="more-h" class="dp-psec dp-more-s">
         <div class="wrap">
-          <header class="sec-hd sm">
-            <p class="eyebrow">{{ t("ly.pd.moreEyebrow", "From the same counter") }}</p>
-            <h2 id="more-h" class="h2">{{ t("ly.pd.moreH", "More {name}", { name: catTitle(cat) }) }}</h2>
-          </header>
-          <div class="grid six">
+          <h2 id="more-h" class="dp-h">{{ t("dp.pd.similar", "Similar tools in {name}", { name: catTitle(cat) }) }}</h2>
+          <div :class="['grid', 'dp-similar', 'n' + more.length]">
             <ly-card v-for="p in more" :key="p.id" :product="p" no-cat />
           </div>
         </div>
@@ -67,6 +72,7 @@
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 import LyPt from "../../components/ly/ui/LyPt.vue";
 import LyCard from "../../components/ly/ui/LyCard.vue";
+import LyIcon from "../../components/ly/LyIcon.vue";
 import LyProductOverview from "../../components/ly/product/LyProductOverview.vue";
 import LyProductTabs from "../../components/ly/product/LyProductTabs.vue";
 import LyTogether from "../../components/ly/product/LyTogether.vue";
@@ -93,6 +99,7 @@ export default {
   props: {},
   components: {
     LyPt,
+    LyIcon,
     LyCard,
     LyProductOverview,
     LyProductTabs,
@@ -139,7 +146,9 @@ export default {
     more() {
       if (!this.product) return [];
       const l = bySells(this.ly.products.filter((p) => p.category_id === this.product.category_id && p.id !== this.product.id));
-      const n = l.length >= 6 ? 6 : l.length >= 3 ? 3 : l.length >= 2 ? 2 : 0;
+      /* Depot: the same brand first, then best sellers; five (a row at 1440), else four or two */
+      l.sort((a, b) => (b.brand === this.product.brand ? 1 : 0) - (a.brand === this.product.brand ? 1 : 0));
+      const n = l.length >= 5 ? 5 : l.length >= 4 ? 4 : l.length >= 2 ? 2 : 0;
       return l.slice(0, n);
     },
   },

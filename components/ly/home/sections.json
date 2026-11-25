@@ -3,7 +3,10 @@
   "hero": {
     "tone": false,
     "band": false,
-    "photos": ["hero-back", "hero-inset"],
+    "photos": [
+      "hero-back",
+      "hero-inset"
+    ],
     "variants": {
       "split": "The shop's name and line on the left; the counter photo bleeding to the right edge of the frame, a framed inset across the seam with the best seller, the three most-ordered collections set large on the photo's dark corner (from Pralino).",
       "mirror": "The same parts mirrored: the photo bleeds to the left edge, the words sit on the right, the collections on the photo's left corner (Domino's hero)."
@@ -12,7 +15,9 @@
   "about": {
     "tone": true,
     "band": true,
-    "photos": ["about"],
+    "photos": [
+      "about"
+    ],
     "variants": {
       "numbers": "The shop in numbers (collections, the saving, days and hours, ways to receive an order) beside its story, photo and Delivery / Pickup / Payment links (from Pralino).",
       "story": "The story, the photo and the links, centred, without the numbers (pair it with counters; Domino's About)."
@@ -29,7 +34,9 @@
   "collections": {
     "tone": true,
     "band": false,
-    "photos": ["col-*"],
+    "photos": [
+      "col-*"
+    ],
     "variants": {
       "rows": "The four collections people order most as alternating photo rows: an outlined numeral, the description, three best sellers with prices, 'Shop <collection>' (from Pralino).",
       "cards": "The same four as a 2 × 2 grid of cards, the photo on top inside the card (Domino)."
@@ -38,7 +45,9 @@
   "how": {
     "tone": true,
     "band": true,
-    "photos": ["how"],
+    "photos": [
+      "how"
+    ],
     "variants": {
       "photo": "How ordering works over a photo bleeding to the frame's edge: four features from the shop's own facts and the courier's card (from Pralino)."
     }
@@ -46,7 +55,9 @@
   "offer": {
     "tone": true,
     "band": false,
-    "photos": ["offer"],
+    "photos": [
+      "offer"
+    ],
     "variants": {
       "ways": "The courier's numbers, the tall offer card on its photo and every way to receive an order (from Pralino)."
     }
@@ -54,7 +65,9 @@
   "gallery": {
     "tone": true,
     "band": false,
-    "photos": ["col-*"],
+    "photos": [
+      "col-*"
+    ],
     "variants": {
       "mosaic": "A gallery of the collections around the most-ordered one, product plates where a collection is missing (from Pralino)."
     }
@@ -70,7 +83,9 @@
   "photoband": {
     "tone": false,
     "band": false,
-    "photos": ["parallax"],
+    "photos": [
+      "parallax"
+    ],
     "variants": {
       "full": "A full-width photo band with a scroll-down button (from Pralino)."
     }
@@ -86,9 +101,101 @@
   "journal": {
     "tone": true,
     "band": true,
-    "photos": ["journal"],
+    "photos": [
+      "journal"
+    ],
     "variants": {
       "photo": "The four newest posts beside a tall photo with the big word 'Journal' (from Pralino; best last)."
+    }
+  },
+  "dp-hero": {
+    "tone": false,
+    "band": false,
+    "photos": [
+      "hero",
+      "hero-sq"
+    ],
+    "variants": {
+      "board": "Depot: the big photo panel with the line and Shop now; beside it the live offers (else the newest tools); the quick links under them."
+    }
+  },
+  "dp-board": {
+    "tone": false,
+    "band": false,
+    "photos": [
+      "promo-kit",
+      "promo-delivery"
+    ],
+    "variants": {
+      "promo": "Depot: departments list, the kit promo (only with kits in the spec), two brand banners (brands with offers first), the popular list."
+    }
+  },
+  "dp-deals": {
+    "tone": false,
+    "band": false,
+    "photos": [],
+    "variants": {
+      "tiles": "Depot: today's top deals as tiles in the family colours, only with live offers."
+    }
+  },
+  "dp-trust": {
+    "tone": false,
+    "band": false,
+    "photos": [],
+    "variants": {
+      "band": "Depot: the service band on the family-dark band: the shop's ways, cash on delivery, compare."
+    }
+  },
+  "dp-depts": {
+    "tone": false,
+    "band": false,
+    "photos": [
+      "col-*"
+    ],
+    "variants": {
+      "tiles": "Depot: the departments as photo tiles with a caption bar."
+    }
+  },
+  "dp-brands": {
+    "tone": false,
+    "band": false,
+    "photos": [],
+    "variants": {
+      "wall": "Depot: every brand of the products as a tile, then All brands."
+    }
+  },
+  "dp-explore": {
+    "tone": false,
+    "band": false,
+    "photos": [],
+    "variants": {
+      "tabs": "Depot: Explore products on the family-dark band: Featured, the largest departments, New products; horizontal cards."
+    }
+  },
+  "dp-why": {
+    "tone": false,
+    "band": false,
+    "photos": [],
+    "variants": {
+      "five": "Depot: why shop here, from the shop's own ways, kits and payment."
+    }
+  },
+  "dp-story": {
+    "tone": false,
+    "band": true,
+    "photos": [
+      "about"
+    ],
+    "variants": {
+      "photo": "Depot: the shop's About page (or description) beside the about photo, on the tint band."
+    }
+  },
+  "dp-journal": {
+    "tone": false,
+    "band": false,
+    "photos": [],
+    "variants": {
+      "cards": "Depot: the four newest posts."
     }
   }
 }

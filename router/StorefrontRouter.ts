@@ -74,6 +74,11 @@ const StorefrontPageBlogsView = () =>
     import( "../pages/blog/view/StorefrontPageBlogsView.vue");
 const StorefrontPageBlogsList = () =>
     import( "../pages/blog/list/StorefrontPageBlogsList.vue");
+/* Depot: the brands page, the pickup point and delivery & returns (components/ly/depot/pages/) */
+const DpBrandsPage = () => import("../components/ly/depot/pages/DpBrandsPage.vue");
+const DpPickupPage = () => import("../components/ly/depot/pages/DpPickupPage.vue");
+const DpDeliveryPage = () => import("../components/ly/depot/pages/DpDeliveryPage.vue");
+
 const StorefrontPageFaq = () =>
     import("@app-storefront/pages/faq/StorefrontPageFaq.vue");
 const StorefrontPageOfficialContactUs = () =>
@@ -698,6 +703,11 @@ const routes: IVueRoute[] = [
           },
         ],
       },
+
+      // ⬬⬬⬬⬬⬬⬬⬬⬬ Depot: brands, pickup point, delivery and returns ⬬⬬⬬⬬⬬⬬⬬⬬
+      { path: "brands", name: "DpBrands", component: DpBrandsPage },
+      { path: "pickup-point", name: "DpPickup", component: DpPickupPage },
+      { path: "help/delivery", name: "DpDelivery", component: DpDeliveryPage },
 
       // ⬬⬬⬬⬬⬬⬬⬬⬬ FAQ ⬬⬬⬬⬬⬬⬬⬬⬬
       {

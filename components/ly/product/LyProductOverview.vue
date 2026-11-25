@@ -20,63 +20,100 @@
   a count (a service, a valuation form, extra pricing, a subscription) keeps
   Selldone's own buy section here.
 -->
+<!--
+  Depot: the top of the product page (design depot.js product(), Acme's three columns):
+
+  - the gallery: the photo on a white plate (never drawn wider than about 1.4 times its own pixels: the shop's photos
+    are small), one row of thumbnails (Selldone's own photos of the product);
+  - the info: the brand plate (its tools), the name, the SKU and "No reviews yet" (the count once there are some),
+    the key specs (the department's own filter keys, then the product's highlights) with "All specifications", the
+    kit note (only from the product's own spec: battery and charger in the box, or a bare tool with the batteries that
+    fit below) and what is in the box (its own "Included Items");
+  - the buy box, which stays in view: the price with its cents raised, the was-price and "Save $x (n%)", the deal's
+    clock only with a real end date, the stock, the options (only real variants), "How to get it" (the shop's own
+    delivery ways, pickup only with a point), "Add to cart" (then − n + in place), Compare and Save, cash on delivery
+    and returns.
+
+  On a phone, once the Add box has scrolled away, a buy bar at the foot. Every behaviour is Selldone's
+  SProductOverview (through Kalio's); a product that needs more than a count keeps Selldone's own buy section.
+-->
 <template>
-  <section :aria-label="$product.title" class="pd">
-    <div class="wrap pd-in">
-      <div class="pd-gal">
+  <section :aria-label="$product.title" class="pd dp-pd">
+    <div class="wrap dp-pdp-g">
+      <div class="pd-gal dp-gal">
         <div class="pd-main">
-          <span v-if="pv.off > 0" ref="off" :aria-label="t('ly.card.offAria', '{off} percent off', { off: pv.off })" class="pc-off"><span dir="ltr">−{{ pv.off }}%</span></span>
-          <img v-if="photo" :key="photo.src" :alt="photo.alt" :src="photo.src" decoding="async" height="640" loading="eager" width="640" />
+          <span v-if="pv.off > 0" class="dp-gal-off">{{ t("dp.card.off", "{n}% off", { n: pv.off }) }}</span>
+          <img
+            v-if="photo"
+            :key="photo.src"
+            :alt="photo.alt"
+            :src="photo.src"
+            :style="natW ? { maxWidth: Math.round(natW * 1.4) + 'px', maxHeight: Math.round(natW * 1.4) + 'px' } : null"
+            decoding="async"
+            height="640"
+            loading="eager"
+            width="640"
+            @load="natW = $event.target.naturalWidth"
+          />
         </div>
         <ul v-if="photos.length > 1" :aria-label="t('ly.pd.photos', 'Photos')" class="pd-th">
           <li v-for="(ph, i) in photos" :key="ph.src">
-            <button
-              :aria-label="t('ly.pd.photoN', 'Photo {n} of {total}', { n: i + 1, total: photos.length })"
-              :aria-pressed="i === at ? 'true' : 'false'"
-              class="pd-t"
-              type="button"
-              @click="at = i"
-            >
+            <button :aria-label="t('ly.pd.photoN', 'Photo {n} of {total}', { n: i + 1, total: photos.length })" :aria-pressed="i === at ? 'true' : 'false'" class="pd-t" type="button" @click="at = i">
               <img :src="ph.thumb" alt="" loading="lazy" />
             </button>
           </li>
         </ul>
       </div>
 
-      <div class="pd-buy">
-        <router-link v-if="cat" :to="catTo(cat)" class="eyebrow pd-cat"><bdi>{{ catName }}</bdi></router-link>
-        <h1 class="pd-h">{{ $product.title }}</h1>
-        <p class="pd-u">
-          {{ t("ly.card.per", "Per {unit}", { unit }) }} ·
-          <a class="pd-rv" href="#tabs" @click.prevent="goReviews">{{ reviewsWord }}</a>
+      <div class="dp-pdp-i">
+        <router-link v-if="brand" :to="brandTo" class="brand-plate"><bdi>{{ brand }}</bdi></router-link>
+        <h1 class="pd-h dp-pd-h"><bdi>{{ $product.title }}</bdi></h1>
+        <p class="dp-pdp-meta">
+          <span v-if="sku" dir="ltr">{{ t("dp.card.sku", "SKU") }}# {{ sku }}</span>
+          <a class="pd-rv" href="#reviews" @click.prevent="goReviews"><ly-icon name="star" />{{ reviewsWord }}</a>
         </p>
+        <div v-if="keys.length" class="dp-keys">
+          <h2>{{ t("dp.pd.keySpecs", "Key specs") }}</h2>
+          <dl>
+            <div v-for="k in keys" :key="k[0]">
+              <dt><bdi>{{ k[0] }}</bdi></dt>
+              <dd><bdi>{{ k[1] }}</bdi></dd>
+            </div>
+          </dl>
+          <a class="dp-keys-more" href="#specs" @click.prevent="goSpecs">{{ t("dp.pd.allSpecs", "All specifications") }}<ly-icon name="down" /></a>
+        </div>
+        <div v-if="kit" :class="['dp-kitnote', kit.kind]">
+          <ly-icon :name="kit.kind === 'kit' ? 'box' : 'battery'" />
+          <div>
+            <b>{{ kit.kind === "kit" ? t("dp.kit.kit", "Kit") : t("dp.kit.bare", "Bare tool") }}</b>
+            <span v-if="kit.kind === 'kit'">{{ t("dp.pd.kitP", "Battery and charger in the box:") }} <bdi>{{ kit.text }}</bdi></span>
+            <span v-else>{{ t("dp.pd.bareP", "Battery and charger sold separately.") }}<template v-if="fits.length"> {{ t("dp.pd.fitsBelow", "Batteries that fit are below.") }}</template></span>
+          </div>
+        </div>
+        <div v-if="box.length" class="dp-box">
+          <h2>{{ t("dp.pd.inBox", "In the box") }}</h2>
+          <ul>
+            <li v-for="x in box" :key="x"><ly-icon name="check" /><span><bdi>{{ x }}</bdi></span></li>
+          </ul>
+        </div>
+      </div>
 
+      <aside class="pd-buy dp-buy">
         <div v-if="isSubscription" class="opts ly-sd-sub">
-          <s-subscription-price-select
-            v-model="selected_subscription_price"
-            :disabled="!$product.quantity"
-            :subscription-prices="subscription_prices"
-            return-object
-          ></s-subscription-price-select>
+          <s-subscription-price-select v-model="selected_subscription_price" :disabled="!$product.quantity" :subscription-prices="subscription_prices" return-object></s-subscription-price-select>
         </div>
         <template v-else>
-          <div class="pd-price">
-            <span class="now money">{{ money(pv.now) }}</span><s v-if="pv.was" class="was money">{{ money(pv.was) }}</s
-            ><span v-if="pv.save > 0" class="save">{{ t("ly.pd.save", "Save {amount} · {off}%", { amount: money(pv.save), off: pv.off }) }}</span>
-          </div>
+          <div class="dp-pr lg pd-price"><dp-money :amount="pv.now" /><s v-if="pv.was" class="was money">{{ money(pv.was) }}</s></div>
+          <p v-if="pv.save > 0" class="dp-off"><ly-icon name="tag" />{{ t("dp.pd.save", "Save {amount} ({n}%)", { amount: money(pv.save), n: pv.off }) }}</p>
           <p v-if="dealEndsAt" class="pd-stock ly-pd-deal"><ly-icon name="clock" />{{ t("ly.pd.dealEnds", "Deal ends in") }}{{ " " }}<bakini-deal-clock :end="dealEndsAt" mode="bare" /></p>
         </template>
         <s-product-section-tax></s-product-section-tax>
-
-        <p :class="['pd-stock', { low: stock > 0 && stock <= 5, out: stock <= 0 }]">
-          <span aria-hidden="true" class="dot"></span
-          ><template v-if="stock <= 0">{{ t("ly.pd.soldOut", "Sold out") }}</template
-          ><template v-else-if="stock <= 5">{{ t("ly.card.onlyLeftCap", "Only {n} left", { n: stock }) }}</template
-          ><template v-else>{{ stockLine }}</template>
+        <p :class="['dp-stock', stock <= 0 ? 'out' : stock <= 5 ? 'low' : 'in']">
+          <ly-icon v-if="stock > 0" name="check" /><template v-if="stock <= 0">{{ t("dp.stock.out", "Out of stock") }}</template
+          ><template v-else-if="stock <= 5">{{ t("dp.stock.low", "Only {n} left", { n: stock }) }}</template><template v-else>{{ t("dp.stock.in", "In stock") }}</template>
         </p>
         <p v-if="!has_original_warranty" class="pd-u">{{ $t("product_info.fake") }}</p>
 
-        <!-- Options: only for a product that really has them. -->
         <div v-if="tiles.length" class="opts">
           <p class="opts-l">
             {{ dimWord }}<span v-if="currentLabel" class="opts-v">{{ currentLabel }}</span>
@@ -98,11 +135,7 @@
           </div>
         </div>
         <div v-else-if="product_variants.length" class="opts ly-sd-variants">
-          <s-product-section-variants
-            v-model:current-variant="current_variant"
-            v-model:filter="filter"
-            v-model:selection-values="selection_values"
-          ></s-product-section-variants>
+          <s-product-section-variants v-model:current-variant="current_variant" v-model:filter="filter" v-model:selection-values="selection_values"></s-product-section-variants>
         </div>
 
         <div class="ly-sd-more">
@@ -122,7 +155,14 @@
           ></s-product-section-extra-pricings>
         </div>
 
-        <div id="pd-acts" ref="add" class="pd-acts">
+        <template v-if="wayLines.length">
+          <h3 class="dp-buy-h">{{ t("dp.pd.getIt", "How to get it") }}</h3>
+          <ul class="dp-ways">
+            <li v-for="l in wayLines" :key="l.key"><ly-icon :name="l.icon" /><span><b><bdi>{{ l.title }}</bdi></b><small v-if="l.line"><bdi>{{ l.line }}</bdi></small></span></li>
+          </ul>
+        </template>
+
+        <div id="pd-acts" ref="add" class="pd-acts dp-buy-a">
           <div class="pd-add">
             <ly-pd-add v-if="simple" :needs-choice="needsChoice" :product="$product" :variant="current_variant" />
             <s-product-section-buy-button
@@ -138,30 +178,30 @@
               class="ly-sd-buy"
             ></s-product-section-buy-button>
           </div>
-          <button class="btn soft cmpb" type="button" @click="compareNow"><ly-icon name="compare" />{{ t("ly.pd.compare", "Compare") }}</button>
         </div>
-
-        <ul v-if="lines.length" class="ils">
-          <ly-ic-line v-for="l in lines" :key="l.key" :icon="l.icon" :text="l.line" :title="l.title" />
+        <div class="dp-buy-s">
+          <button :class="['btn', 'sm', 'quiet', 'cmpb', { on: comparing }]" type="button" @click="compareNow"><ly-icon name="compare" />{{ t("dp.card.compare", "Compare") }}</button>
+          <button :aria-pressed="isSaved ? 'true' : 'false'" :class="['btn', 'sm', 'quiet', { on: isSaved }]" type="button" @click="save"><ly-icon name="heart" />{{ isSaved ? t("dp.pd.saved", "Saved") : t("dp.pd.save1", "Save") }}</button>
+        </div>
+        <ul class="dp-buy-n">
+          <li v-if="payLine"><ly-icon name="cash" /><span><b>{{ payLine.title }}</b><small v-if="payLine.line"><bdi>{{ payLine.line }}</bdi></small></span></li>
+          <li><ly-icon name="returns" /><span><b>{{ t("dp.pd.returns", "Returns") }}</b><small><router-link :to="{ name: 'DpDelivery' }">{{ t("dp.pd.returnsSee", "See delivery and returns") }}</router-link></small></span></li>
         </ul>
-      </div>
+      </aside>
     </div>
 
     <!-- The phone's buy bar, once the Add box has scrolled away. -->
     <teleport to="body">
       <div class="ly ly-layers">
-        <div :aria-hidden="barOn ? undefined : 'true'" :class="['buybar', { on: barOn }]">
+        <div :aria-hidden="barOn ? undefined : 'true'" :class="['buybar', 'dp-mbar', { on: barOn }]">
           <div class="wrap bb-in">
             <span class="bb-pl"><img v-if="photos[0]" :src="photos[0].thumb" alt="" /></span>
             <span class="bb-tx"
-              ><b>{{ $product.title }}</b
-              ><span
-                ><span class="now money">{{ money(pv.now) }}</span><template v-if="pv.was">{{ " " }}<s class="was money">{{ money(pv.was) }}</s></template></span
-              ></span
+              ><b><bdi>{{ $product.title }}</bdi></b><span><dp-money :amount="pv.now" /></span></span
             >
             <div class="bb-a">
               <ly-pd-add v-if="simple" :needs-choice="needsChoice" :product="$product" :variant="current_variant" />
-              <button v-else class="btn sm" type="button" @click="toAdd">{{ t("ly.add.add", "Add to bag") }}</button>
+              <button v-else class="btn sm" type="button" @click="toAdd">{{ t("dp.card.addCart", "Add to cart") }}</button>
             </div>
           </div>
         </div>
@@ -176,6 +216,10 @@ import BakiniDealClock from "../../bakini/BakiniDealClock.vue";
 import LyIcon from "../LyIcon.vue";
 import LyIcLine from "../ui/LyIcLine.vue";
 import LyPdAdd from "./LyPdAdd.vue";
+import DpMoney from "../depot/DpMoney.vue";
+import { catalogueRoute } from "../../kalio/kalio-catalog";
+import { saved, toggleSaved } from "../../bakini/bakini";
+import { fitsFor, inBoxOf, keySpecs, kitOf, skuOf } from "../depot/dp";
 import { catOf, catTitle, catTo, ly, money, priceView, unitOf } from "../ly";
 import { deliveryLines, galleryOf, isEnglish, plural } from "./pd";
 import { colourName, dealEnd, moneyOf, swatchBg, variantDimension } from "../../bakini/bakini";
@@ -187,11 +231,11 @@ import { t } from "../../kalio/i18n/kalio-i18n";
 export default {
   name: "LyProductOverview",
   extends: KalioProductOverview,
-  components: { BakiniDealClock, LyIcon, LyIcLine, LyPdAdd },
+  components: { BakiniDealClock, LyIcon, LyIcLine, LyPdAdd, DpMoney },
   emits: ["reviews"],
 
   data() {
-    return { at: 0, barOn: false, ly };
+    return { at: 0, barOn: false, natW: 0, ly };
   },
 
   computed: {
@@ -235,6 +279,38 @@ export default {
     },
     lines() {
       return deliveryLines(this.shop || this.$shop);
+    },
+    wayLines() {
+      return this.lines.filter((l) => l.key !== "pay");
+    },
+    payLine() {
+      return this.lines.find((l) => l.key === "pay") || null;
+    },
+    brand() {
+      return String(this.$product?.brand || "").trim();
+    },
+    brandTo() {
+      return catalogueRoute({ brand: this.brand });
+    },
+    sku() {
+      return skuOf(this.$product);
+    },
+    keys() {
+      void this.ly.products.length;
+      return keySpecs(this.$product, 6);
+    },
+    kit() {
+      return kitOf(this.$product);
+    },
+    fits() {
+      void this.ly.products.length;
+      return this.kit?.kind === "bare" ? fitsFor(this.$product) : [];
+    },
+    box() {
+      return inBoxOf(this.$product);
+    },
+    isSaved() {
+      return saved[this.$product.id] ?? !!this.$product.wishlist;
     },
     enabledVariants() {
       return this.product_variants.filter((v) => v.enable !== false && v.enable !== 0);
@@ -288,6 +364,10 @@ export default {
   watch: {
     "$product.id"() {
       this.at = 0;
+      this.natW = 0;
+    },
+    at() {
+      this.natW = 0;
     },
     "current_variant.id"() {
       this.at = 0;
@@ -328,6 +408,12 @@ export default {
     catTo,
     goReviews() {
       this.$emit("reviews");
+    },
+    goSpecs() {
+      document.getElementById("specs")?.scrollIntoView({ behavior: window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ? "auto" : "smooth", block: "start" });
+    },
+    save() {
+      toggleSaved(this, this.$product);
     },
     /* Add this pastry to Selldone's comparison and open the Layout's compare
        page: what the shopper already compares, else this with two of its own

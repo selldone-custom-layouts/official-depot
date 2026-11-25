@@ -16,15 +16,17 @@ export function galleryOf(product: any, variant: any = null): { src: string; thu
   if (!product) return [];
   const out: { src: string; thumb: string; alt: string }[] = [];
   const seen = new Set<string>();
-  const put = (path: string | null | undefined, alt = "") => {
+  /* Only the product's main photo has a working 128px thumbnail: a gallery photo's ".png128.png" loads but draws
+     nothing (Toolino, 25 Nov 2026), so gallery thumbnails take the photo itself. */
+  const put = (path: string | null | undefined, alt = "", small = false) => {
     if (!path) return;
     const src = window.CDN.GET_SHOP_IMAGE_PATH(path);
     if (!src || seen.has(src)) return;
     seen.add(src);
-    out.push({ src, thumb: window.CDN.GET_SHOP_IMAGE_PATH(path, 128) || src, alt: alt || product.title || "" });
+    out.push({ src, thumb: (small && window.CDN.GET_SHOP_IMAGE_PATH(path, 128)) || src, alt: alt || product.title || "" });
   };
   if (variant?.image) put(variant.image);
-  put(product.icon);
+  put(product.icon, "", true);
   const images = [...(product.images || [])].sort((a: any, b: any) => (a?.order ?? 0) - (b?.order ?? 0));
   for (const im of images) {
     if (!im?.path) continue;

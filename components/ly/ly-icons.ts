@@ -5,6 +5,15 @@
  * sections, inside the photo slots' fallbacks and as the feature icons).
  */
 export const ICONS: Record<string, string> = {
+  /* Depot (the tool superstore): the cart, departments grid, what's new, a battery, brands, returns, the wrench mark, an order */
+  cart: '<path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
+  grid: '<rect x="4" y="4" width="6.5" height="6.5" rx="1.2"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.2"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.2"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.2"/>',
+  bolt: '<path d="M13 3.5 6 13.2h5.2L10.5 20.5 18 10.6h-5.3Z"/>',
+  battery: '<rect x="3.5" y="7.5" width="15" height="9" rx="1.8"/><path d="M20.5 10.5v3M7 10.5v3M10 10.5v3M13 10.5v3"/>',
+  layers: '<path d="m12 4 8.5 4.5L12 13 3.5 8.5Z"/><path d="m3.5 12.5 8.5 4.5 8.5-4.5M3.5 16.5 12 21l8.5-4.5"/>',
+  returns: '<path d="M4.5 9.5h11a4.5 4.5 0 0 1 0 9H9"/><path d="m8 6-3.5 3.5L8 13"/>',
+  wrench: '<path d="M14.5 5.5a4 4 0 0 0 4.8 4.8L11 18.6a2 2 0 0 1-2.8-2.8l8.3-8.3a4 4 0 0 1-2-2Z"/>',
+  order: '<path d="M6.5 3.5h11v17h-11zM9 8h6M9 11.5h6M9 15h4"/>',
   bag: "<path d=\"M5.5 8h13l-1 12.2a1 1 0 0 1-1 .8H7.5a1 1 0 0 1-1-.8z\"/><path d=\"M9 10V6.8a3 3 0 0 1 6 0V10\"/>",
   search: "<circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"m20 20-4.2-4.2\"/>",
   user: "<circle cx=\"12\" cy=\"8.5\" r=\"3.8\"/><path d=\"M4.8 20c.9-3.6 3.7-5.6 7.2-5.6s6.3 2 7.2 5.6\"/>",

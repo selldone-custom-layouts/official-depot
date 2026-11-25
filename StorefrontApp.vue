@@ -569,6 +569,8 @@ export default {
 <style lang="scss" src="./style/ly-sd.scss"></style>
 <style lang="scss" src="./style/ly-layout.scss"></style>
 <style src="./style/ly/variants.css"></style>
+<style src="./style/ly/dp.css"></style>
+<style src="./style/ly/dp-pages.css"></style>
 
 <style lang="scss">
 /*

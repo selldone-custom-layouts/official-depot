@@ -12,17 +12,23 @@
 <template>
   <div class="ly ly-article">
     <template v-if="article">
-      <ly-pt :crumbs="crumbs" :title="article.title" art="whisk" art2="croissant" cls="art-pt">
-        <p class="art-m">
-          <ly-icon name="cal" /><time v-if="article.created_at" :datetime="article.created_at">{{ fmtDate(article.created_at) }}</time
-          ><template v-if="article.created_at"><span>·</span></template><span>{{ t("ly.rd.journalOf", "{shop} journal", { shop: shopName }) }}</span>
-        </p>
-      </ly-pt>
-      <article :aria-label="article.title" class="artl">
+      <!-- Depot: the breadcrumb, "Tool talk", the title and the date, then the wide cover. Selldone makes the body's
+           first picture the post's cover, so a body that opens with it would show it twice: that copy leaves the body
+           and its caption goes under the cover (marketplace-guide.md, the owner's rule of 25 Nov 2026). -->
+      <div class="wrap dp-lwrap dp-art-h">
+        <nav :aria-label="t('dp.ls.crumbs', 'Breadcrumb')" class="dp-crumbs">
+          <router-link :to="{ path: '/' }">{{ t("dp.ls.home", "Home") }}</router-link><ly-icon cls="sep" name="right" /><router-link :to="journalRoute()">{{ t("dp.ftr.journal", "Tool talk") }}</router-link
+          ><ly-icon cls="sep" name="right" /><span aria-current="page"><bdi>{{ article.title }}</bdi></span>
+        </nav>
+        <span class="dp-kick">{{ t("dp.ftr.journal", "Tool talk") }}</span>
+        <h1 class="dp-art-t"><bdi>{{ article.title }}</bdi></h1>
+        <p class="art-m"><time v-if="article.created_at" :datetime="article.created_at">{{ fmtDate(article.created_at) }}</time></p>
+      </div>
+      <article :aria-label="article.title" class="artl dp-artl">
         <div class="wrap">
-          <figure :class="['art-cov', { 'ly-cov-none': !cover }]">
-            <img v-if="cover" :src="cover" :srcset="coverSrcset" alt="" fetchpriority="high" height="900" sizes="(max-width: 1160px) 96vw, 1080px" width="1600" @error="dropSrcset" />
-            <ly-art v-else name="whisk" wrap="ly-bc-art" />
+          <figure v-if="cover" class="art-cov dp-art-cov">
+            <img :alt="lead.alt" :src="cover" :srcset="coverSrcset" fetchpriority="high" height="900" sizes="(max-width: 1160px) 96vw, 1040px" width="1600" @error="dropSrcset" />
+            <figcaption v-if="lead.cap" data-shop-text dir="auto">{{ lead.cap }}</figcaption>
           </figure>
           <div class="art-col">
             <p v-if="lede" class="art-lead">{{ lede }}</p>
@@ -63,8 +69,8 @@
             <div class="auth">
               <ly-mark />
               <div>
-                <b>{{ t("ly.rd.journalOf", "{shop} journal", { shop: shopName }) }}</b>
-                <p>{{ counterLine }}</p>
+                <b>{{ t("dp.ftr.journal", "Tool talk") }}</b>
+                <p>{{ t("dp.art.about", "Guides from the shop: choosing, using and caring for your tools.") }}</p>
                 <router-link :to="journalRoute()" class="qlink">{{ t("ly.rd.allPosts", "All posts") }}<ly-icon cls="flip-rtl" name="arrow" /></router-link>
               </div>
             </div>
@@ -175,19 +181,38 @@ export default {
       return this.$store.getters.getShop;
     },
     /* The shop's text, with the editor's leftovers taken out. */
-    body() {
-      return String(this.article?.body || "")
+    /* The body without its opening picture when that picture is the cover (see the template), with the picture's alt
+       and caption kept for the cover. A body that opens with words, or with another picture, is left as it is. */
+    lead() {
+      const html = String(this.article?.body || "")
         .replace(/\scontenteditable="[^"]*"/g, "")
         .replace(/src="http:/g, 'src="');
+      const out = { html, alt: "", cap: "" };
+      const image = this.article?.image;
+      if (!image || !html || typeof document === "undefined") return out;
+      const key = (u: string) => String(u || "").split(/[?#]/)[0].replace(/\.(png|jpe?g|webp)\d+\.(png|jpe?g|webp)$/i, ".$1").split("/").pop()!.toLowerCase();
+      const root = document.createElement("div");
+      root.innerHTML = html;
+      const img = root.querySelector("img");
+      if (!img || key(img.getAttribute("src") || "") !== key(image)) return out;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let n: Node | null;
+      while ((n = walker.nextNode())) if (img.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_PRECEDING && (n.textContent || "").trim()) return out;
+      let box: Element = img.closest("figure") || img;
+      const wrap = box.parentElement;
+      if (wrap && wrap !== root && wrap.children.length === 1) box = wrap;
+      out.alt = img.getAttribute("alt") || "";
+      out.cap = (box.querySelector?.("figcaption")?.textContent || "").trim();
+      box.remove();
+      out.html = root.innerHTML;
+      return out;
     },
-    /* The cover, unless the text opens with the same picture. */
+    body() {
+      return this.lead.html;
+    },
     cover() {
       const image = this.article?.image;
-      if (!image) return null;
-      const file = String(image).split("/").pop()!.split("?")[0].slice(0, 40);
-      const first = /<img[^>]+src="([^"]+)"/.exec(this.article.body || "");
-      if (first && file && first[1].includes(file)) return null;
-      return window.CDN.GET_SHOP_IMAGE_PATH(image, null);
+      return image ? window.CDN.GET_SHOP_IMAGE_PATH(image, null) : null;
     },
     coverSrcset() {
       return photoSrcset(this.cover);

@@ -125,17 +125,44 @@
   },
   "home": [
     {
-      "section": "hero",
-      "variant": "split"
+      "section": "dp-hero",
+      "variant": "board"
     },
     {
-      "section": "collections",
+      "section": "dp-board",
+      "variant": "promo"
+    },
+    {
+      "section": "dp-deals",
+      "variant": "tiles"
+    },
+    {
+      "section": "dp-trust",
+      "variant": "band"
+    },
+    {
+      "section": "dp-depts",
+      "variant": "tiles"
+    },
+    {
+      "section": "dp-brands",
+      "variant": "wall"
+    },
+    {
+      "section": "dp-explore",
+      "variant": "tabs"
+    },
+    {
+      "section": "dp-why",
+      "variant": "five"
+    },
+    {
+      "section": "dp-story",
+      "variant": "photo"
+    },
+    {
+      "section": "dp-journal",
       "variant": "cards"
-    },
-    {
-      "section": "journal",
-      "variant": "photo",
-      "band": true
     }
   ],
   "photos": {

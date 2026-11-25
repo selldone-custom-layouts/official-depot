@@ -10,7 +10,16 @@
 -->
 <template>
   <div class="ly ly-journal">
-    <ly-pt :crumbs="crumbs" :lead="lede" :title="heading" art="whisk" art2="cookie" cls="compact" />
+    <!-- Depot: the breadcrumb and the journal's head ("Tool talk", or the topic, tag, author or search it is narrowed to) -->
+    <div class="wrap dp-lwrap">
+      <nav :aria-label="t('dp.ls.crumbs', 'Breadcrumb')" class="dp-crumbs">
+        <router-link :to="{ path: '/' }">{{ t("dp.ls.home", "Home") }}</router-link><ly-icon cls="sep" name="right" /><span aria-current="page">{{ t("dp.ftr.journal", "Tool talk") }}</span>
+      </nav>
+      <div class="dp-lhead plain">
+        <h1 class="dp-lh1"><bdi>{{ filtered ? heading : t("dp.ftr.journal", "Tool talk") }}</bdi></h1>
+        <p class="dp-ld">{{ filtered ? lede : t("dp.art.about", "Guides from the shop: choosing, using and caring for your tools.") }}</p>
+      </div>
+    </div>
     <section :aria-label="t('ly.rd.posts', 'Posts')" class="sec-s">
       <div class="wrap">
         <article v-if="feature" class="bf">
