@@ -1,0 +1,233 @@
+{
+  "$schema": "../../skin.schema.json",
+  "name": "depot",
+  "package": "depot-tool-superstore",
+  "title": "Depot Tool Superstore",
+  "description": "A tool superstore Layout in the manner of a big hardware and power tool retailer. A red service strip with delivery, pickup, payment, order tracking and help links read from the shop's own settings; a white header with the wordmark, a wide search for tools, brands and specs, the account and the cart with its total; a navigation row with a Shop all mega menu (departments, quick links from each department's own specification, its first tools), a Brands menu built from the products' brands, Deals and What's new pills and the department links. The home: a photo hero with the live offers beside it, quick links, a promo board (departments, a kit promo, brand offers, popular tools), today's deals as brand-coloured tiles, a service band, department photo tiles, a brand wall, an Explore products band with tabs and horizontal cards, why shop here, the shop's story and its journal. Cards with a brand plate, the SKU, stock, the price with raised cents, the saving and a compare tick. A department page with a filter sidebar built from the tools' real specification (brand, kit or bare tool, price) and five cards a row; a product page with the gallery, key specifications and what is in the box beside a sticky buy box with delivery and pickup from the shop's own settings, section tabs, the full specification in the shop's own groups, the batteries that fit a bare tool, and an honest reviews area; compare side by side; a cart drawer and the whole checkout; the journal, About, Contact, FAQ and policy pages. One colour family from the chosen palette (Signal red by default; Charcoal, Cobalt, Pine or any colour), light by default with a dark mode, Barlow Condensed over Barlow, 10 px panels. English and Arabic.",
+  "summary": "A tool superstore: red service strip, big search, Shop all mega menu with spec quick links, promo board and deal tiles, department photo tiles, brand wall, Acme-style cards with raised cents, a filter sidebar from the real specification, a product page with a sticky buy box, kits and bare tools, compare and the whole checkout.",
+  "tagline": "Power tools, hand tools and the batteries that fit.",
+  "kind": "Tools · single shop",
+  "tags": [
+    "tools",
+    "hardware",
+    "superstore",
+    "single-vendor",
+    "light",
+    "rtl"
+  ],
+  "shop": {
+    "name": "Toolino",
+    "id": 16151,
+    "xapi": "toolino-Nz2AovCw",
+    "domain": "depot.selldone.shop",
+    "currency": "USD",
+    "country": "US",
+    "language": "en"
+  },
+  "github": {
+    "org": "selldone-custom-layouts",
+    "repo": "official-depot",
+    "topics": [
+      "selldone",
+      "selldone-layout",
+      "storefront",
+      "vue",
+      "tools",
+      "hardware"
+    ]
+  },
+  "dev": {
+    "port": 9179
+  },
+  "checks": {
+    "product": "741864",
+    "product2": "741865",
+    "category": "/drills-drivers-category",
+    "search": "drill",
+    "article": "/blog/battery-care-36446",
+    "compare": "p741864_p741865_p741867",
+    "i18nIgnore": "Cash on delivery"
+  },
+  "palettes": {
+    "brand": "signal",
+    "mode": "light",
+    "list": [
+      {
+        "id": "signal",
+        "name": "Signal red",
+        "seed": "#b4232c"
+      },
+      {
+        "id": "charcoal",
+        "name": "Charcoal",
+        "seed": "#3f4a5a"
+      },
+      {
+        "id": "cobalt",
+        "name": "Cobalt",
+        "seed": "#2b5797"
+      },
+      {
+        "id": "pine",
+        "name": "Pine",
+        "seed": "#2f6b46"
+      }
+    ],
+    "showcaseShops": [
+      {
+        "id": 15740,
+        "name": "bakio"
+      },
+      {
+        "id": 15549,
+        "name": "digini-hzgablru"
+      },
+      {
+        "id": 15645,
+        "name": "molino"
+      },
+      {
+        "id": 16151,
+        "name": "toolino-Nz2AovCw"
+      }
+    ]
+  },
+  "fonts": {
+    "display": {
+      "family": "Barlow Condensed",
+      "google": "Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,800",
+      "stack": "\"Barlow Condensed\", \"Noto Sans Arabic\", \"Arial Narrow\", sans-serif"
+    },
+    "text": {
+      "family": "Barlow",
+      "google": "Barlow:wght@400;500;600;700;800",
+      "stack": "\"Barlow\", \"Noto Sans Arabic\", \"Segoe UI\", system-ui, sans-serif"
+    },
+    "headingWeight": 800
+  },
+  "shape": {
+    "panel": 10,
+    "inner": 6
+  },
+  "wordmark": {
+    "case": "upper",
+    "italic": true,
+    "dot": false,
+    "sub": "none",
+    "font": "display",
+    "weight": 800,
+    "tracking": ".01em",
+    "size": 34
+  },
+  "basket": {
+    "one": "cart",
+    "many": "carts"
+  },
+  "home": [
+    {
+      "section": "hero",
+      "variant": "split"
+    },
+    {
+      "section": "collections",
+      "variant": "cards"
+    },
+    {
+      "section": "journal",
+      "variant": "photo",
+      "band": true
+    }
+  ],
+  "photos": {
+    "hero": {
+      "size": [
+        2400,
+        1029
+      ],
+      "art": "none",
+      "note": "a tradesperson at work with a cordless tool in a bright workshop; the words sit on the photo's calm left side"
+    },
+    "hero-sq": {
+      "size": [
+        900,
+        900
+      ],
+      "art": "none",
+      "note": "the same scene cut square for phones"
+    },
+    "promo-kit": {
+      "size": [
+        1280,
+        720
+      ],
+      "art": "none",
+      "note": "an open tool kit case with a drill, batteries and charger on a bench"
+    },
+    "promo-battery": {
+      "size": [
+        1280,
+        720
+      ],
+      "art": "none",
+      "note": "batteries and a charger on a shelf"
+    },
+    "promo-pickup": {
+      "size": [
+        1280,
+        720
+      ],
+      "art": "none",
+      "note": "a pickup counter with an order waiting"
+    },
+    "promo-delivery": {
+      "size": [
+        1280,
+        720
+      ],
+      "art": "none",
+      "note": "a delivery truck being loaded with boxed tools"
+    },
+    "about": {
+      "size": [
+        1440,
+        960
+      ],
+      "art": "none",
+      "note": "the shop's floor with tools on pegboards"
+    },
+    "contact": {
+      "size": [
+        1200,
+        800
+      ],
+      "art": "none",
+      "note": "a service desk"
+    },
+    "empty": {
+      "size": [
+        1200,
+        800
+      ],
+      "art": "none",
+      "note": "an empty workbench, for empty states"
+    },
+    "collections": {
+      "size": [
+        1040,
+        780
+      ],
+      "pattern": "col-<slug of the collection title or name>"
+    }
+  },
+  "loading": {
+    "art": "none"
+  },
+  "splash": {
+    "art": "none"
+  },
+  "photoCredit": "The photos were generated with Magnific (Freepik) for Toolino under the owner's plan.",
+  "words": {
+    "en": {},
+    "ar": {}
+  }
+}

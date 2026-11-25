@@ -1,0 +1,29 @@
+{
+  "name": "Depot Tool Superstore",
+  "shop": "Toolino",
+  "kind": "Tools · single shop",
+  "summary": "A tool superstore: red service strip, big search, Shop all mega menu with spec quick links, promo board and deal tiles, department photo tiles, brand wall, Acme-style cards with raised cents, a filter sidebar from the real specification, a product page with a sticky buy box, kits and bare tools, compare and the whole checkout.",
+  "live": "https://depot.selldone.shop",
+  "cover": "docs/screenshots/cover.jpg",
+  "screenshots": [
+    "docs/screenshots/desktop-home.jpg",
+    "docs/screenshots/desktop-category.jpg",
+    "docs/screenshots/desktop-product.jpg",
+    "docs/screenshots/desktop-cart.jpg",
+    "docs/screenshots/phone-home.jpg",
+    "docs/screenshots/phone-category.jpg",
+    "docs/screenshots/phone-product.jpg",
+    "docs/screenshots/phone-cart.jpg"
+  ],
+  "tags": [
+    "tools",
+    "hardware",
+    "superstore",
+    "single-vendor",
+    "light",
+    "rtl"
+  ],
+  "package": "depot-tool-superstore",
+  "base": "selldone/storefront",
+  "status": "draft"
+}
