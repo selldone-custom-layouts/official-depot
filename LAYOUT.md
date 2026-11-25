@@ -10,7 +10,7 @@
 | Names | `manifest.json` and `selldone-layout.json` from the skin (`package` is permanent after the first upload; the `description` must be right on the FIRST upload, Selldone keeps it) |
 | Dev server | port **9179**, shop `toolino-Nz2AovCw` (`.env`); `npm run serve` (launch entry `depot-layout`) |
 | Skin | Signal red, Charcoal, Cobalt, Pine (brand `signal`), Barlow Condensed over Barlow, radius 10 / 6 px, basket word "cart" |
-| Layout id | (after the first upload) |
+| Layout id | **54** (domain depot.selldone.shop, id 1282: pinned to the exact version, mode private; the shop's default untouched; the domain's home is the shop page; custom loading screen from `scripts/loading/config.json`) |
 
 ## What makes it Depot
 
@@ -60,10 +60,11 @@ bypassed, so they follow Acme's usual pattern). The design reference is `toolino
 ## Checks
 
 <!-- CHECKS:START -->
-(none yet)
+25 Nov 2026, 1.0.0 on depot.selldone.shop: the full fast-check suite TOTAL 0 (ring, card-edge, corner, circle, contrast, cart, currency, box, i18n, text-col, shape, underline, variant; 1440, 1024, 820, 390 and the wide widths; light, dark, every palette and custom colours; Arabic). Guest walks, nothing ordered, the cart emptied: the truck to Los Angeles and the pickup point, each to Selldone's payment window at 1440, 1024, 820 and 390 (WALK OK). Every language with a currency (en USD, ar AED, fr EUR, hi INR, zh CNY) at 1440 and 390 on eight pages: no page error, no sideways overflow. Tablet probe on dev: TOTAL 0 after the journal fix. Production bundle check OK; 285 files; server copy verified (extracting false, error null, shop.js and shop.css equal).
 <!-- CHECKS:END -->
 
 ## Releases
 
 | Version | Date | Layout | Deploy | What |
 | --- | --- | --- | --- | --- |
+| 1.0.0 | 2026-11-25 | 54 | 834 | First release: the Depot header, footer, cards, home, listing, product page, journal, brands, pickup point and delivery pages; pinned on depot.selldone.shop only |
