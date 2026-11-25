@@ -136,20 +136,21 @@ export default {
     shape: path.join(ROOT, "scripts/shape-check.cjs"),
     underline: path.join(ROOT, "scripts/underline-check.cjs"),
   },
-  box: { mega: "[aria-controls=dd-shop]", quick: ".pc-qv", category: CAT },
+  box: { mega: "[aria-controls=dd-shop]", quick: ".dp-qv", category: CAT },
   shape: {
     states(label, w) {
       const s = [];
       if (w <= PHONE) s.push(["menu", ".menu-btn"]);
       else {
         s.push(["shop-menu", "[aria-controls=dd-shop]"]);
-        s.push(["region", ".rg-pill"]);
+        s.push(["region", ".dp-region"]);
       }
-      s.push(["search", "[aria-controls=srch]"]);
+      /* Depot: the search is always open in the header: focusing it is its state */
+      s.push(["search", "#dp-q"]);
       if (label === "home" || label === "category") s.push(["bag", ".bag-btn"]);
       if (label === "category") {
         if (w < 1200) s.push(["filter-sheet", ".fbtn"]);
-        s.push(["quick", ".pc-qv"]);
+        s.push(["quick", ".dp-qv"]);
       }
       if (label === "account") s.push(["signin", "@signin"]);
       return s;

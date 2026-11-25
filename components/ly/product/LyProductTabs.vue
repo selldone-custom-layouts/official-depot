@@ -29,7 +29,7 @@
 
       <section id="specs" aria-labelledby="h-specs" class="dp-psec">
         <h2 id="h-specs" class="dp-h">{{ t("dp.pd.specs", "Specifications") }}</h2>
-        <div class="dp-specs">
+        <div class="dp-specs" data-shop-text>
           <table v-for="g in groups" :key="g.group" class="dp-spec">
             <caption v-if="g.group"><bdi>{{ g.group }}</bdi></caption>
             <tbody>

@@ -132,12 +132,8 @@
     "hero",
     "hero-sq",
     "promo-kit",
-    "promo-battery",
-    "promo-pickup",
     "promo-delivery",
-    "about",
-    "contact",
-    "empty"
+    "about"
   ],
   "photos": [
     "about.webp",
@@ -151,13 +147,9 @@
     "col-saws.webp",
     "col-screwdrivers-bits.webp",
     "col-wrenches-sockets.webp",
-    "contact.webp",
-    "empty.webp",
     "hero-sq.webp",
     "hero.webp",
-    "promo-battery.webp",
     "promo-delivery.webp",
-    "promo-kit.webp",
-    "promo-pickup.webp"
+    "promo-kit.webp"
   ]
 }

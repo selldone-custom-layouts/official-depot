@@ -136,7 +136,7 @@
                           </div>
                         </div>
                       </details>
-                      <details v-for="(f, gi) in facets" :key="f.key" :open="gi < 3" class="fg">
+                      <details v-for="(f, gi) in facets" :key="f.key" :open="gi < 3" class="fg" data-shop-text>
                         <summary>
                           <span><bdi>{{ f.key }}</bdi></span><ly-icon cls="chev" name="down" />
                         </summary>

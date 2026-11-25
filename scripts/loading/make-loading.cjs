@@ -22,6 +22,9 @@ const fs = require("fs");
 const path = require("path");
 
 const ART = {
+  /* Depot (a tool shop): an open-end wrench across the ring */
+  wrench:
+    '<g transform="translate(8 8) scale(1.6)"><path d="M44 12a10 10 0 0 0-8 15L14 49a5 5 0 0 0 7 7l22-22a10 10 0 0 0 13-12l-6 6-6-2-2-6Z"/><circle cx="17.5" cy="52.5" r="1.6"/></g>',
   croissant:
     '<path d="M10 80c2-14 13-24 25-27 6-12 16-19 25-19s19 7 25 19c12 3 23 13 25 27-6 4-14 4-20-2-2 8-8 12-14 12-4 6-10 9-16 9s-12-3-16-9c-6 0-12-4-14-12-6 6-14 6-20 2z"/>' +
     '<path d="M35 53c5 8 7 18 5 28M60 34c2 12 2 31 0 47M85 53c-5 8-7 18-5 28"/><path d="M24 66c3 2 6 3 9 3M96 66c-3 2-6 3-9 3"/>',

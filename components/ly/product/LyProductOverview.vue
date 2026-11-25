@@ -72,7 +72,7 @@
           <span v-if="sku" dir="ltr">{{ t("dp.card.sku", "SKU") }}# {{ sku }}</span>
           <a class="pd-rv" href="#reviews" @click.prevent="goReviews"><ly-icon name="star" />{{ reviewsWord }}</a>
         </p>
-        <div v-if="keys.length" class="dp-keys">
+        <div v-if="keys.length" class="dp-keys" data-shop-text>
           <h2>{{ t("dp.pd.keySpecs", "Key specs") }}</h2>
           <dl>
             <div v-for="k in keys" :key="k[0]">
@@ -90,7 +90,7 @@
             <span v-else>{{ t("dp.pd.bareP", "Battery and charger sold separately.") }}<template v-if="fits.length"> {{ t("dp.pd.fitsBelow", "Batteries that fit are below.") }}</template></span>
           </div>
         </div>
-        <div v-if="box.length" class="dp-box">
+        <div v-if="box.length" class="dp-box" data-shop-text>
           <h2>{{ t("dp.pd.inBox", "In the box") }}</h2>
           <ul>
             <li v-for="x in box" :key="x"><ly-icon name="check" /><span><bdi>{{ x }}</bdi></span></li>

@@ -99,9 +99,9 @@
           </div>
         </div>
 
-        <router-link :to="accountTo" class="dp-acct">
+        <router-link :aria-label="vw > 1300 ? undefined : signedIn ? t('ly.hdr.account', 'Account') : t('dp.hdr.signIn', 'Sign in')" :to="accountTo" class="dp-acct">
           <ly-icon name="user" />
-          <span class="dp-acct-t"
+          <span v-if="vw > 1300" class="dp-acct-t"
             ><b>{{ signedIn ? userName : t("dp.hdr.welcome", "Welcome") }}</b><small>{{ signedIn ? t("dp.hdr.yourAccount", "Your account") : t("dp.hdr.signInNew", "Sign in | New account") }}</small></span
           >
         </router-link>
@@ -114,7 +114,7 @@
           @click="toggle('drawer', $event)"
         >
           <span class="dp-cart-i"><ly-icon name="cart" /><span v-if="units" class="count">{{ units > 99 ? "99+" : units }}</span></span>
-          <span class="dp-cart-t"><b>{{ t("dp.hdr.myCart", "My cart") }}</b><small class="money">{{ money(cartTotal) }}</small></span>
+          <span v-if="vw > 1100" class="dp-cart-t"><b>{{ t("dp.hdr.myCart", "My cart") }}</b><small class="money">{{ money(cartTotal) }}</small></span>
         </button>
       </div>
 
@@ -149,7 +149,7 @@
                 <p class="dp-mega-t"><bdi>{{ catTitle(megaCat) }}</bdi></p>
                 <router-link :to="catTo(megaCat)" class="btn sm quiet">{{ t("dp.hdr.shopDept", "Shop the department") }}</router-link>
               </div>
-              <div v-if="megaQuick.length" class="dp-mega-q">
+              <div v-if="megaQuick.length" class="dp-mega-q" data-shop-text>
                 <div v-for="f in megaQuick" :key="f.key">
                   <p class="dp-mega-k"><bdi>{{ f.key }}</bdi></p>
                   <router-link v-for="v in f.values" :key="v" :to="catTo(megaCat, { f: f.key + ':' + v })"><bdi>{{ v }}</bdi></router-link>
@@ -168,7 +168,7 @@
         <div v-if="brandList.length" id="dd-brands" :class="['dd', 'dp-brands', { open: is('dd-brands') }]">
           <div class="wrap dp-brands-in">
             <router-link v-for="b in brandList" :key="b.name" :to="brandTo(b.name)">
-              <span class="dp-pic"><img v-if="b.top" :src="thumb(b.top)" alt="" loading="lazy" /></span><span class="dp-brand-n"><b><bdi>{{ b.name }}</bdi></b><small>{{ t("dp.hdr.toolsN", { one: "{n} tool", other: "{n} tools" }, { n: b.n }) }}</small></span>
+              <span class="dp-pic"><img v-if="b.top" :src="thumb(b.top)" alt="" loading="lazy" /></span><span class="dp-brand-n"><b><bdi>{{ b.name }}</bdi></b></span>
             </router-link>
             <router-link :to="{ name: 'DpBrands' }" class="dp-brands-all">{{ t("dp.hdr.allBrands", "All brands") }}<ly-icon name="arrow" /></router-link>
           </div>
@@ -291,7 +291,7 @@ export default {
   },
   emits: ["search", "clear"],
 
-  data: () => ({ q: "", cursor: -1, moreOpen: false, rgpPos: {}, megaId: null, layer, ly, region: regionState }),
+  data: () => ({ q: "", cursor: -1, moreOpen: false, rgpPos: {}, megaId: null, vw: typeof window === "undefined" ? 1440 : window.innerWidth, layer, ly, region: regionState }),
 
   computed: {
     shop() {
@@ -486,6 +486,8 @@ export default {
 
   mounted() {
     this.onResize = () => {
+      /* the account's and the cart's words only where they fit (an empty track that holds words is a squeeze) */
+      this.vw = window.innerWidth;
       if (this.layer.open === "rgp") this.place();
       this.fitRow();
     };

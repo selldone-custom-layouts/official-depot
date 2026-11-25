@@ -12,11 +12,35 @@
 | Skin | Signal red, Charcoal, Cobalt, Pine (brand `signal`), Barlow Condensed over Barlow, radius 10 / 6 px, basket word "cart" |
 | Layout id | (after the first upload) |
 
+## What makes it Depot
+
+The look follows acmetools.com's tool superstore (home seen live; its other pages are behind a bot check that was not
+bypassed, so they follow Acme's usual pattern). The design reference is `toolino-design/depot/*.html` in the workspace.
+
+| Area | Where | What |
+| --- | --- | --- |
+| Header | `components/ly/shell/LyHeader.vue` | the red service strip (door delivery, pickup only with a point, pay on delivery only with COD; Track order, Pickup point, Help, language & currency), the wrench glyph and wordmark, the wide search (name, SKU, brand, spec), the account and the cart with its total; the navigation row: Shop all (mega menu: departments, quick links from each department's own spec, its first tools), Brands (the products' brands), Deals, What's new, the departments that fit, All departments; the phone menu |
+| Footer | `components/ly/shell/LyFooter.vue` | the service band (every delivery way and cash on delivery from live settings), Shop / Departments / Help / Company, the Theme row, the legal row |
+| Card | `components/ly/ui/LyCard.vue` | grid (brand plate, heart, SKU, stock, Kit / Bare tool, raised-cents price, saving, Add to cart, Compare tick), `h` (Explore band, batteries that fit), `row` (popular list) |
+| Reads | `components/ly/depot/dp.ts` | brands, SKU, kit or bare tool (only the product's own "Battery Included" / "Power Package" rows), batteries that fit (own "Tool Platform" names the brand and voltage), a department's filters from its products' spec, key specs, price bands, way lines |
+| Listing | `components/ly/shop/LyListing.vue` | breadcrumb and head (department name, line and photo), department chips, the deals band, a filter sidebar on every listing (departments, brand, kit or bare tool, the department's spec filters, price bands and boxes, on offer), five cards a row; `?brand=`, `?kit=kit|bare`, `?f=Key:Value|…` (the mega menu's quick links) |
+| Product | `components/ly/product/LyProductOverview.vue`, `LyProductTabs.vue`, `pages/product/StorefrontPageProduct.vue` | three columns: gallery (never drawn wider than ~1.4 × its own pixels), key specs + kit note + in the box, the sticky buy box (price, saving, stock, how to get it from the shop's ways, add, compare, save, COD, returns); a sticky section bar: Overview, Specifications, Batteries that fit (bare tools), Reviews; Similar tools |
+| Journal | `pages/blog/list/…`, `pages/blog/view/StorefrontPageBlogsView.vue` | "Tool talk"; a post shows its cover once: when the body opens with the cover picture (Selldone makes the body's first picture the cover), that copy leaves the body and its caption goes under the cover |
+| Pages | `components/ly/depot/pages/` | `/brands` (every brand with its departments and tools), `/pickup-point` (the shop's own pickup point, its map, when to collect, cost and note; an honest empty state without one), `/help/delivery` (the shop's delivery ways, ways to pay, how a return starts) |
+| Styles | `style/ly/dp.css` (shell, cards), `style/ly/dp-pages.css` (home, listing, product, journal, pages, the base pages' title band) | one colour family, 10 / 6 px, Barlow Condensed over Barlow, no line art |
+
 ## Home
 
-1. **hero** (split): The shop's name and line on the left; the counter photo bleeding to the right edge of the frame, a framed inset across the seam with the best seller, the three most-ordered collections set large on the photo's dark corner (from Pralino).
-2. **collections** (cards): The same four as a 2 × 2 grid of cards, the photo on top inside the card (Domino).
-3. **journal** (photo, tint band): The four newest posts beside a tall photo with the big word 'Journal' (from Pralino; best last).
+1. **dp-hero** (board): the photo panel ("Tools for every job") with Shop now; beside it the live offers ("Up to n% off", three of them), else the newest tools; quick links (deals only with offers, what's new, kits / bare tools only when the spec has them, the pickup point only with one).
+2. **dp-board** (promo): the departments with their own image; the kit promo (else Shop all tools); two brand banners (brands with live offers first); the popular list (Selldone's sells).
+3. **dp-deals** (tiles): today's top deals, only with live offers.
+4. **dp-trust** (band): the door way and the pickup point, the shop's line, cash on delivery (only with COD), compare.
+5. **dp-depts** (tiles): every department as a photo tile (`col-<slug>`, else its own image cut out).
+6. **dp-brands** (wall): every brand of the products, then All brands.
+7. **dp-explore** (tabs): Featured, the largest departments, New products; horizontal cards on the family-dark band.
+8. **dp-why** (five): specs first, kit or bare tool, door delivery, the pickup point (else order tracking), pay on delivery (only with COD).
+9. **dp-story** (photo, tint band): the shop's own About page (or its description) beside the about photo; hidden without either.
+10. **dp-journal** (cards): the four newest posts.
 
 ## Photos
 

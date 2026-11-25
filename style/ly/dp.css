@@ -4,15 +4,17 @@
    One shape language: circle, --ly-r-pn panels, --ly-r-in parts. No underlines, flat buttons, hover = colour only,
    focus = one inset ring. */
 
-.ly { --dp-plate: #ffffff; --dp-on-dark: var(--ly-dark-ink); --dp-hi: var(--ly-act-dk); }
-html.ly-dark .ly, html.ly-dark.ly { --dp-plate: color-mix(in oklab, var(--ly-tint2) 10%, #eeeeee); }
+.ly { --dp-plate: #ffffff; --dp-on-dark: var(--ly-dark-ink); --dp-hi: var(--ly-act-dk); --dp-deep: var(--ly-dark); --dp-deep-2: var(--ly-dark-2); }
+/* dark mode: the product plate is a light neutral (the photos are cut-outs on white); the deep panels and pills take
+   the family's lifted dark so they stand off the dark page (the footer keeps the darkest) */
+html.ly-dark .ly, html.ly-dark.ly { --dp-plate: color-mix(in oklab, var(--ly-tint2) 10%, #eeeeee); --dp-deep: var(--ly-tint2); --dp-deep-2: color-mix(in oklab, var(--ly-tint2) 82%, #ffffff); }
 
 /* ── type ── */
 .ly .dp-kick { display: inline-block; font: 800 14px/1 var(--ly-serif); letter-spacing: .08em; text-transform: uppercase; color: var(--ly-act-text); }
 .ly .dp-h { font: 800 clamp(24px, 2.2vw, 30px)/1.05 var(--ly-serif); text-transform: uppercase; letter-spacing: .01em; color: var(--ly-ink); }
 .ly .dp-pic { position: relative; display: block; aspect-ratio: 1; overflow: hidden; border-radius: var(--ly-r-in); background: var(--dp-plate); padding: 8px; }
 .ly .dp-pic img { width: 100%; height: 100%; object-fit: contain; }
-.ly .brand-plate { display: inline-flex; align-items: center; min-height: 24px; max-width: 100%; padding: 0 9px; border-radius: var(--ly-r-in); background: var(--ly-dark); color: var(--dp-on-dark); font: 800 12px/1 var(--ly-serif); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ly .brand-plate { display: inline-flex; align-items: center; min-height: 24px; max-width: 100%; padding: 0 9px; border-radius: var(--ly-r-in); background: var(--dp-deep); color: var(--dp-on-dark); font: 800 12px/1 var(--ly-serif); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ly a.brand-plate:hover { background: var(--ly-act); color: var(--ly-act-on); }
 .ly .brand-word { font: italic 800 26px/1 var(--ly-serif); letter-spacing: .02em; text-transform: uppercase; }
 .ly .dp-sku { font: 500 11.5px/1.3 ui-monospace, "SFMono-Regular", Consolas, monospace; color: var(--ly-muted); }
@@ -100,7 +102,7 @@ html.ly-dark .ly, html.ly-dark.ly { --dp-plate: color-mix(in oklab, var(--ly-tin
 .ly .dp-pill .i { width: 16px; height: 16px; }
 .ly .dp-pill.deals { background: var(--ly-act); color: var(--ly-act-on); }
 .ly .dp-pill.deals:hover { background: var(--ly-act-deep); color: var(--ly-act-on); }
-.ly .dp-pill.new { background: var(--ly-dark); color: var(--dp-on-dark); }
+.ly .dp-pill.new { background: var(--dp-deep); color: var(--dp-on-dark); }
 .ly .dp-pill.new:hover { background: var(--ly-act); color: var(--ly-act-on); }
 .ly .dp-depts { display: flex; flex-wrap: wrap; height: 36px; gap: 2px; margin-inline-start: 6px; overflow: hidden; flex: 1; min-width: 0; }
 .ly .dp-depts a, .ly .dp-alld { display: inline-flex; align-items: center; min-height: 36px; padding: 0 10px; border-radius: 999px; font: 700 15px/1 var(--ly-serif); text-transform: uppercase; letter-spacing: .03em; white-space: nowrap; color: var(--ly-hdr-ink); }
@@ -110,7 +112,7 @@ html.ly-dark .ly, html.ly-dark.ly { --dp-plate: color-mix(in oklab, var(--ly-tin
 /* the mega menu and the brands menu */
 .ly .dp-nav .dd { position: absolute; inset-inline: 0; top: 100%; width: auto; padding: 0; margin: 0; background: transparent; border: 0; box-shadow: none; display: block; z-index: 60; }
 .ly .dp-nav .dd::before { display: none; }
-.ly .dp-mega-in, .ly .dp-brands-in { background: var(--ly-paper); color: var(--ly-ink); border-radius: 0 0 var(--ly-r-pn) var(--ly-r-pn); box-shadow: 0 24px 50px rgba(0, 0, 0, .16), inset 0 0 0 1px var(--ly-line); }
+.ly .dp-mega-in, .ly .dp-brands-in { background: var(--ly-paper); color: var(--ly-ink); border-radius: var(--ly-r-pn); box-shadow: 0 24px 50px rgba(0, 0, 0, .16), inset 0 0 0 1px var(--ly-line); }
 .ly .dp-mega-in { display: grid; grid-template-columns: 300px minmax(0, 1fr); padding-inline: 0; max-width: calc(var(--ly-wrap) - 2 * var(--ly-gut)); }
 .ly .dp-mega-l { padding: 10px; border-inline-end: 1px solid var(--ly-line); }
 .ly .dp-mega-l button { display: grid; grid-template-columns: 36px 1fr 16px; gap: 10px; align-items: center; width: 100%; padding: 6px 10px; border-radius: var(--ly-r-in); text-align: start; font-weight: 600; font-size: 14px; line-height: 1.3; }
@@ -156,7 +158,7 @@ html.ly-dark .ly, html.ly-dark.ly { --dp-plate: color-mix(in oklab, var(--ly-tin
 .ly .dp-svc > div { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: center; }
 .ly .dp-svc span { display: flex; flex-direction: column; line-height: 1.25; }
 .ly .dp-svc b { font: 800 17px/1.15 var(--ly-serif); text-transform: uppercase; letter-spacing: .02em; }
-.ly .dp-svc small { font-size: 13px; opacity: .9; }
+.ly .dp-svc small { font-size: 13px; }
 .ly .dp-svc .i { width: 28px; height: 28px; }
 .ly .dp-foot-in { display: grid; grid-template-columns: 1.4fr repeat(4, minmax(0, 1fr)); gap: 28px; padding-block: 44px 30px; }
 .ly .dp-foot-brand p { margin-top: 14px; color: var(--ly-dark-muted); font-size: 14px; line-height: 1.6; max-width: 34ch; }
@@ -170,7 +172,7 @@ html.ly-dark .ly, html.ly-dark.ly { --dp-plate: color-mix(in oklab, var(--ly-tin
 .ly .dp-foot .ftr-bot { background: color-mix(in oklab, var(--ly-dark) 82%, #000); text-transform: none; letter-spacing: 0; font: 500 13px/1.4 var(--ly-sans); color: var(--ly-dark-muted); }
 
 /* ── the cards ── */
-.ly .pc.dp-card { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: var(--ly-r-pn); background: var(--ly-paper); box-shadow: inset 0 0 0 1px var(--ly-line); container-type: inline-size; min-width: 0; }
+.ly .pc.dp-card { transition: none; position: relative; display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: var(--ly-r-pn); background: var(--ly-paper); box-shadow: inset 0 0 0 1px var(--ly-line); container-type: inline-size; min-width: 0; }
 .ly .pc.dp-card:hover { box-shadow: inset 0 0 0 1.5px var(--ly-act); }
 .ly .dp-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 36px; }
 .ly .dp-heart { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: var(--ly-muted); flex: none; }
