@@ -130,9 +130,9 @@ login modes). Do not place real orders. Run browser checks one at a time.
 
 ## 4. Check the result yourself
 
-- Open your domain. You should see a dark top bar with your opening hours and the way to pay, a white header with your shop's title as a centred serif wordmark and your city under it, then the hero: your shop's name and the hero's line (the skin's words) beside the hero photo running to the window's edge, a framed photo across the seam and your three most-ordered collections on the photo's dark corner. Then "<shop> in numbers" on a soft tint band. Not Selldone's default home.
+- Open your domain. You should see the red service strip (delivery, pickup and pay on delivery only when your shop offers them), a white header with your wordmark, the wide search, the account and the cart, the navigation row with Shop all, Brands, Deals and What's new, then the photo hero beside your live offers.
 - If you picked another palette or a brand colour, the bands, plates, the top bar and the footer take its hue too, not only the buttons.
-- Tap **Add to bag** on a card: it becomes "− 1 +" in place, and the bag's count goes up.
+- Tap **Add to cart** on a card: it becomes "− 1 +" in place, and the cart's count and total in the header go up.
 - Tap the account, then Sign in: the sign-in sheet opens with your shop's own ways in. It should never end on an error page at Selldone.
 - Open the bag from the header, then Checkout: the step pills, your delivery ways as cards, and their time windows.
 - A product sitting on a white or coloured square inside its plate is a photo with its own ground: use a cut-out (see [Shop Requirements](Shop-Requirements#products)).

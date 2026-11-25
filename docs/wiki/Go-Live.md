@@ -61,7 +61,7 @@ If `/` shows a Page Builder landing page while `/shop` shows the Layout, the Hom
 Open the address **without a query** (a query shows the catalogue instead of the home). Then:
 
 - the page source's `window.sdShopLayout` → `"saved"` block names your package and the new version;
-- the header shows the dark top bar and, under it, the white header with your shop's title as the centred serif wordmark and your city under it; the home starts with the hero (your shop's name and the hero's line (the skin's words) beside the hero photo running to the window's edge), then "<shop> in numbers" on a soft tint band;
+- the header shows the red service strip and, under it, the white header with the wrench mark, your shop's wordmark, the wide search, the account and the cart; the home starts with the photo hero beside the live offers (or the newest tools) and the quick links;
 - no blank page and no flash of an old design;
 - Sign in opens the sign-in sheet with your shop's own ways in;
 - the bag drawer opens from the header, and the checkout lists your delivery ways and their windows;

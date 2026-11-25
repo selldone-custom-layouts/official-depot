@@ -70,7 +70,7 @@ To drop a photo, delete its file and release: the slot shows its fallback. A slo
 | Bag drawer (the lines, the receipt, Checkout and View bag, Often added) | `components/ly/shell/LyBagDrawer.vue` |
 | Footer (the shop's name and its line, Visit, Shop, Contact; the Theme row; the legal row) | `components/ly/shell/LyFooter.vue` |
 | Wordmark | `components/ly/LyLogo.vue` |
-| Home (hero, the shop in numbers with About, the collections people order most, How ordering works, the courier's numbers with the offer card and the ways, gallery, Today's selection, photo band, marquee, journal) | `components/ly/home/ (LyHome.vue and sections/)`, inside `pages/products/StorefrontPageProducts.vue` |
+| Home (Depot: the photo hero with the live offers, the promo board, today's deals, the service band, department tiles, the brand wall, Explore products, why shop here, the story, the journal) | `components/ly/home/LyHome.vue` and `components/ly/depot/home/` (one component per section; the order is the skin's `home`), inside `pages/products/StorefrontPageProducts.vue` |
 | Photo slots and drawings | `components/ly/LyPhoto.vue`, `LyCuts.vue`, `LyArt.vue`, `pr-photos.ts` |
 | Shared data and layers (the collections and catalogue read once, the shop's facts, one layer open at a time) | `components/ly/pr.ts` |
 | Words in circles (the `−%` roundel, the deals panel's "Save") fitted again when the window changes size | `components/ly/pr-fit.ts` |
