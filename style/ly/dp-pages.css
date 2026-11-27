@@ -68,7 +68,9 @@
 .ly .dp-bb { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 22px; border-radius: var(--ly-r-pn); overflow: hidden; min-height: 200px; }
 .ly .dp-bb.s0 { background: var(--dp-deep); color: var(--dp-on-dark); }
 .ly .dp-bb.s1 { background: var(--ly-act); color: var(--ly-act-on); }
-.ly .dp-bb:hover { color: inherit; }
+/* hover keeps the words' colour: a `color: inherit` here took the section's dark ink, so the words went dark on the
+   dark and red boards under the mouse (Depot 1.0.0); the board brightens instead, like the brand wall */
+.ly .dp-bb:hover { filter: brightness(1.08); }
 .ly .dp-bb .brand-word { font-size: 30px; }
 .ly .dp-bb b { font: 800 26px/1.1 var(--ly-serif); text-transform: uppercase; }
 .ly .dp-bb-d { font-size: 14px; line-height: 1.4; max-width: 52%; }
@@ -81,7 +83,7 @@
 .ly .dp-tile.s0 { background: var(--ly-act); color: var(--ly-act-on); }
 .ly .dp-tile.s1, .ly .dp-tile.s2 { background: var(--dp-deep); color: var(--dp-on-dark); }
 .ly .dp-tile.s2 { background: var(--dp-deep-2); }
-.ly .dp-tile:hover { color: inherit; }
+.ly .dp-tile:hover { filter: brightness(1.08); } /* the words keep their colour (see .dp-bb:hover) */
 .ly .dp-tile .brand-plate { align-self: flex-start; background: var(--ly-paper); color: var(--ly-ink); }
 .ly .dp-tile .dp-pic { margin-block: 4px; }
 .ly .dp-tile b { font: 800 22px/1 var(--ly-serif); text-transform: uppercase; }
@@ -111,7 +113,7 @@
 .ly .dp-bw-t.s0, .ly .dp-bw-t.s2 { background: var(--dp-deep); color: var(--dp-on-dark); }
 .ly .dp-bw-t.s2 { background: var(--dp-deep-2); }
 .ly .dp-bw-t.s1 { background: var(--ly-act); color: var(--ly-act-on); }
-.ly .dp-bw-t:hover { color: inherit; filter: brightness(1.08); }
+.ly .dp-bw-t:hover { filter: brightness(1.08); }
 .ly .dp-bw-t .brand-word { font-size: 28px; overflow-wrap: anywhere; }
 .ly .dp-bw-t.all { display: flex; gap: 8px; justify-content: center; align-items: center; background: var(--ly-plate); color: var(--ly-act-text); font: 800 18px/1 var(--ly-serif); text-transform: uppercase; }
 .ly .dp-bw-t.all .i { width: 18px; height: 18px; }

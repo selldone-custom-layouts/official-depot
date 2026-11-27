@@ -1082,6 +1082,9 @@ select.inp:is(.ly,.ly *) { -webkit-appearance: none; appearance: none; backgroun
   .cr-n:is(.ly,.ly *) { font-size: 19px; }
   .cr-q:is(.ly,.ly *) { justify-self: start; }
   .cr-rm:is(.ly,.ly *) { align-self: start; }
+  /* the line total shares the 44 px remove column: right-aligned, so it grows to the left inside the card,
+     not past its edge (Depot 1.0.0 and Workbench 1.0.1: "$111.20" ran to the screen's edge at 390) */
+  .cr-lt:is(.ly,.ly *) { justify-self: end; }
   .cdlv:is(.ly,.ly *) { padding: 18px; }
   .co-c:is(.ly,.ly *) { grid-template-columns: 1fr; padding: 20px 18px 22px; }
   .co-c:is(.ly,.ly *) .numeral { width: 56px; height: 36px; }

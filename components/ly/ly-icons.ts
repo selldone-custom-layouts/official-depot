@@ -116,3 +116,17 @@ export const ART: Record<string, string> = {
     '<path d="M18 46c0 6 4 10 10 10s10-4 10-10c0 6 4 10 11 10s11-4 11-10c0 6 4 10 11 10s11-4 11-10c0 6 4 10 10 10s10-4 10-10"/>' +
     '<path d="M26 56v42h68V56M50 98V74h20v24M40 24l-5 22M60 24v22M80 24l5 22M16 98h88"/>',
 };
+
+/* Depot draws tools, not pastries, under the base's drawing names: the empty cart, About's three panels and
+   Contact's cards use them inline. Each is one of the 24 × 24 line icons above, drawn four times larger in the
+   120 × 120 box; the strokes keep their width (non-scaling-stroke in base.css and pages.css). */
+const dpArt = (icon: string) => `<g transform="translate(12 12) scale(4)">${ICONS[icon]}</g>`;
+Object.assign(ART, {
+  croissant: dpArt("wrench"),
+  cupcake: dpArt("battery"),
+  cake: dpArt("box"),
+  whisk: dpArt("bolt"),
+  tart: dpArt("truck"),
+  macaron: dpArt("cash"),
+  cookie: dpArt("order"),
+});

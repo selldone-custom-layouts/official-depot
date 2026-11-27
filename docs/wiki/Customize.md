@@ -19,7 +19,7 @@ One file: `components/ly/ly-theme.settings.ts`. See [Theme and colours](Theme-an
 | What | Where |
 | --- | --- |
 | Fonts (Barlow Condensed for headings, the wordmark and numbers set large; Barlow for text, buttons and the nav; Material Symbols Rounded only for Selldone's own parts and the shared pieces; an Arabic face only when Arabic is picked) | `components/kalio/kalio-fonts.ts` |
-| Icons (inline line icons, one stroke width) and the seven line drawings (under the names croissant, macaron, cupcake, cake, tart, cookie and whisk; a skin draws its own) | `components/ly/ly-icons.ts`, drawn by `LyIcon.vue` and `LyArt.vue` |
+| Icons (inline line icons, one stroke width) and the seven line drawings (under the base's names croissant, macaron, cupcake, cake, tart, cookie and whisk) | `components/ly/ly-icons.ts`, drawn by `LyIcon.vue` and `LyArt.vue`. Depot draws tools under those names (the empty cart, About's three panels, Contact's cards): the end of `ly-icons.ts` maps them to the wrench, battery, box, bolt, truck, cash and order icons, drawn four times larger |
 | Type and shape tokens, and the brand palette's colours for the first paint (light in `:root`, dark in `html.ly-dark`), all generated from the skin | `style/ly-skin.gen.scss`, every name `--ly-…` |
 | Every colour after the first paint: the grounds, plates, lines, words, the dark top bar and footer of the palette on the page | `components/ly/ly-family.ts`, written inline on `<html>` |
 | "Bag" instead of basket in Selldone's own English strings | `components/kalio/kalio-brand.ts` (`bagWords()`) |
