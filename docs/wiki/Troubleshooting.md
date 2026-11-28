@@ -94,7 +94,7 @@ That is by design: the top bar's hours, way to pay and pickup street (and the ph
 
 ## On a very wide screen (or zoomed out) the page looks like a strip
 
-From 1.0.1 Depot draws one page frame, 1920 px wide and centred: every photo that runs to an edge (the hero's, How ordering works, the journal, the photo band, a collection's title band) stops at the frame's edge, so the hero and the sections below share the same left and right edges, and the content column grows a little (up to 1600 px) on big screens. Wider than the frame, the sides show the page's own ground. Nothing is sized from the window, so text never squeezes into a thin column. If you see a strip with a full-width hero, the shop still runs 1.0.0: attach 1.0.1 or newer ([Go Live](Go-Live)).
+Depot draws one page frame, 1920 px wide and centred: every photo that runs to an edge (the hero's, How ordering works, the journal, the photo band, a collection's title band) stops at the frame's edge, so the hero and the sections below share the same left and right edges, and the content column grows a little (up to 1600 px) on big screens. Wider than the frame, the sides show the page's own ground. Nothing is sized from the window, so text never squeezes into a thin column. If you see a strip with a full-width hero, the page is not Depot's: check the version attached to the domain ([Go Live](Go-Live)).
 
 ## A loading picture stays for a moment after the page is ready
 
